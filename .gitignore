@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+
+# Streamlit cache
+.streamlit/cache/
+.streamlit/config.toml
+
+# SQLite / MySQL dumps (optional)
+*.db
+*.sqlite3
+
+# Virtual environments
+venv/
+env/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# PyCharm and VSCode
+.idea/
+.vscode/
+
+# Logs
+*.log
