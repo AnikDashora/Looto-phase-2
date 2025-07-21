@@ -4,16 +4,8 @@ CREATE DATABASE IF NOT EXISTS looto;
 -- Step 2: Use the database
 USE looto;
 
--- Step 3: Drop tables if they already exist (to reset)
-DROP TABLE IF EXISTS order_items;
-DROP TABLE IF EXISTS orders;
-DROP TABLE IF EXISTS cart_items;
-DROP TABLE IF EXISTS products;
-DROP TABLE IF EXISTS categories;
-DROP TABLE IF EXISTS users;
-
 -- USERS TABLE
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     user_id VARCHAR(10) PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
@@ -22,13 +14,13 @@ CREATE TABLE users (
 );
 
 -- CATEGORIES TABLE
-CREATE TABLE categories (
+CREATE TABLE IF NOT EXISTS categories (
     category_id VARCHAR(10) PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
 -- PRODUCTS TABLE
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
     product_id VARCHAR(10) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
@@ -39,7 +31,7 @@ CREATE TABLE products (
 );
 
 -- CART_ITEMS TABLE (Composite Primary Key: user_id + product_id)
-CREATE TABLE cart_items (
+CREATE TABLE IF NOT EXISTS cart_items (
     user_id VARCHAR(10) NOT NULL,
     product_id VARCHAR(10) NOT NULL,
     quantity INT NOT NULL DEFAULT 1,
@@ -49,7 +41,7 @@ CREATE TABLE cart_items (
 );
 
 -- ORDERS TABLE
-CREATE TABLE orders (
+CREATE TABLE IF NOT EXISTS orders (
     order_id VARCHAR(10) PRIMARY KEY,
     user_id VARCHAR(10) NOT NULL,
     status ENUM('Ordered', 'Packed', 'Shipped', 'Out for Delivery', 'Delivered', 'Cancelled') NOT NULL DEFAULT 'Ordered',
@@ -59,7 +51,7 @@ CREATE TABLE orders (
 );
 
 -- ORDER_ITEMS TABLE (Composite Primary Key: order_id + product_id)
-CREATE TABLE order_items (
+CREATE TABLE IF NOT EXISTS order_items (
     order_id VARCHAR(10) NOT NULL,
     product_id VARCHAR(10) NOT NULL,
     quantity INT NOT NULL DEFAULT 1,
