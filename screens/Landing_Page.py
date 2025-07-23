@@ -130,4 +130,3 @@ def landing_page():
     st.subheader(tag_line)
     st.button("Let's start")
 
-landing_page()
