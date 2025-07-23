@@ -1,26 +1,28 @@
 import mysql.connector
 import os
-from dotenv import load_dotenv
+import sys
 
-load_dotenv()  # Loads variables from .env into environment
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
+
 
 class sql_connection:
     def __init__(self):
         # Read environment variables
-        self.host = os.getenv('DB_HOST')
-        self.user = os.getenv('DB_USER')
-        self.password = os.getenv('DB_PASSWORD')
-        self.database = os.getenv('DB_NAME')
+        self._host = "localhost"
+        self._user = "root"
+        self._password = "root"
+        self._database = "looto"
 
-        if not all([self.host, self.user, self.password, self.database]):
+        if not all([self._host, self._user, self._password, self._database]):
             raise ValueError("Database configuration is missing in the .env file.")
 
         # Establish connection
         self.connection = mysql.connector.connect(
-            host=self.host,
-            user=self.user,
-            password=self.password,
-            database=self.database
+            host=self._host,
+            user=self._user,
+            password=self._password,
+            database=self._database
         )
         self.cursor = self.connection.cursor()
 
