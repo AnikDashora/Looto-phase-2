@@ -22,6 +22,19 @@ remove_header_footer = """
 signup_page_styles = """
 <style>
     /* Center the main heading */
+    section[data-testid="stMain"] {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 80vh;
+        background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #222;
+        padding: 2rem;
+        box-sizing: border-box;
+    }
     #create-a-account {
         text-align: center;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;

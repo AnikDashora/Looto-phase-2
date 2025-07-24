@@ -21,6 +21,19 @@ remove_header_footer = """
 login_page_style = """
 <style>
     /* Center the login heading */
+    section[data-testid="stMain"] {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 80vh;
+        background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #222;
+        padding: 2rem;
+        box-sizing: border-box;
+    }
     h2#login {
         text-align: center;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
