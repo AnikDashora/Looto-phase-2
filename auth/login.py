@@ -166,6 +166,7 @@ login_page_style = """
         transition: border-color 0.3s ease;
         box-shadow: none !important;
         background-color:white;
+        color:black;
     }
 
     input[id^="text_input_"]:focus {

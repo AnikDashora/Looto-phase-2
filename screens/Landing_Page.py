@@ -290,32 +290,6 @@ landing_page_styles = """
         width: 100%; /* Ensures proper centering */
     }
 
-    /* Fade-in animation for form elements */
-    h1#create-a-account,
-    h2#login,
-    .stElementContainer.st-key-signup_user_name,
-    .stElementContainer.st-key-signup_user_email,
-    .stElementContainer.st-key-signup_user_password,
-    .stElementContainer.st-key-signup_button,
-    .stElementContainer.st-key-already_user_button,
-    .stElementContainer.st-key-login_user_email,
-    .stElementContainer.st-key-login_user_password,
-    .stElementContainer.st-key-login_button,
-    .stElementContainer.st-key-new_user_button {
-        animation: fade_in 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        opacity: 0;
-        transform: translateY(20px) scale(0.98);
-        animation-delay: 0.3s;
-    }
-
-    @keyframes fade_in {
-        to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
-    }
-
     /* Input fields styling - for inputs with id starting "text_input_" */
     input[id^="text_input_"] {
         width: 100%;
@@ -394,7 +368,7 @@ landing_page_styles = """
         }
 
         #ab-nahi-loge-tho-kab {
-            font-size: 1.75rem;
+            font-size: 1rem;
         }
     }
 </style>
