@@ -159,7 +159,7 @@ signup_page_styles = """
     }
 
     /* Input fields styling */
-    div.stTextInput > div > input {
+    input[id^="text_input_"] {
         border-radius: 8px;
         border: 1.8px solid #3949AB;
         padding: 0.5rem 1rem;
@@ -169,20 +169,20 @@ signup_page_styles = """
         box-shadow: none !important;
     }
 
-    div.stTextInput > div > input:focus {
+    input[id^="text_input_"]:focus {
         border-color: #1a237e;
         outline: none;
         box-shadow: 0 0 6px rgba(26, 35, 126, 0.5);
     }
     .stTextInput > label > div > p {
         font-weight: 700;
-        color: black;   /* a blue color */
+        color: black;
         font-size: 1rem;
         margin-bottom: 0.25rem;
     }
 
     /* Placeholder text style */
-    div.stTextInput > div > input::placeholder {
+    input[id^="text_input_"]::placeholder {
         color: #7a7a7a;
         font-style: italic;
     }

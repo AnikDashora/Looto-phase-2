@@ -157,7 +157,7 @@ login_page_style = """
     }
 
     /* Input fields styling */
-    div.stTextInput > div > input {
+    input[id^="text_input_"] {
         border-radius: 8px;
         border: 1.8px solid #3949AB;
         padding: 0.5rem 1rem;
@@ -167,14 +167,14 @@ login_page_style = """
         box-shadow: none !important;
     }
 
-    div.stTextInput > div > input:focus {
+    input[id^="text_input_"]:focus {
         border-color: #1a237e;
         outline: none;
         box-shadow: 0 0 6px rgba(26, 35, 126, 0.5);
     }
 
     /* Placeholder text style */
-    div.stTextInput > div > input::placeholder {
+    input[id^="text_input_"]::placeholder {
         color: #7a7a7a;
         font-style: italic;
     }
