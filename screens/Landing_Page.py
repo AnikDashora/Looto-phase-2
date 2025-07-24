@@ -30,6 +30,7 @@ landing_page_styles = """
     /* Center content vertically and horizontally with flexbox */
     section[data-testid="stMain"] {
         display: flex;
+        flex-wrap:wrap;
         flex-direction: column;
         justify-content: center;
         align-items: center;
