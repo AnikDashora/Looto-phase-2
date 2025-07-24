@@ -54,7 +54,7 @@ landing_page_styles = """
 
     /* Subheader styling */
     h2[data-baseweb="heading"] {
-        font-size: 1rem;
+        font-size: 1.75rem;
         font-weight: 500;
         margin-bottom: 2rem;
         color: #3949ab; /* medium blue */
@@ -89,7 +89,7 @@ landing_page_styles = """
     div.stButton > button {
         background-color: #3949ab;
         color: white;
-        font-size: 1.25rem;
+        font-size: 1rem;
         font-weight: 600;
         padding: 0.6em 2.4em;
         border-radius: 8px;
