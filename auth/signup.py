@@ -168,6 +168,7 @@ signup_page_styles = """
         transition: border-color 0.3s ease;
         box-shadow: none !important;
         background-color:white;
+        color:black;
     }
 
     input[id^="text_input_"]:focus {
