@@ -197,7 +197,9 @@ login_page_style = """
     }
 </style>
 """
+
 heading = "<h2 id = 'login'>Login</h2>"
+
 def login_page():
     st.markdown(remove_header_footer,unsafe_allow_html=True)
     st.markdown(login_page_style,unsafe_allow_html=True)
