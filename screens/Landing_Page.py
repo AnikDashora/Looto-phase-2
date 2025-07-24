@@ -20,9 +20,9 @@ landing_page_styles = """
         display: none !important;
     }
 
-    /* Remove top padding and add comfortable horizontal padding */
+    /* Remove top padding and comfortable horizontal padding */
     .block-container {
-        padding-top: 0rem !important;
+        padding-top: 0 !important;
         padding-left: 2rem !important;
         padding-right: 2rem !important;
     }
@@ -30,7 +30,7 @@ landing_page_styles = """
     /* Center content vertically and horizontally with flexbox */
     section[data-testid="stMain"] {
         display: flex;
-        flex-wrap:wrap;
+        flex-wrap: wrap;
         flex-direction: column;
         justify-content: center;
         align-items: center;
@@ -49,7 +49,7 @@ landing_page_styles = """
         font-size: 3rem;
         margin-bottom: 0.25em;
         color: #1a237e; /* deep blue */
-        text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+        text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
     }
 
     /* Subheader styling */
@@ -76,8 +76,8 @@ landing_page_styles = """
 
     /* Typing keyframes */
     @keyframes typing {
-        0% { width: 0% }
-        80%, 100% { width: 15em }
+        0%   { width: 0% }
+        80%,100% { width: 15em }
     }
 
     /* Blinking cursor */
@@ -91,41 +91,89 @@ landing_page_styles = """
         color: white;
         font-size: 1rem;
         font-weight: 600;
-        padding: 0.6em 2.4em;
+        padding: 0.8em 2.4em; /* increased vertical padding for better touch target */
         border-radius: 8px;
         border: none;
         box-shadow: 0 4px 8px rgba(57, 73, 171, 0.4);
         cursor: pointer;
-        width:50%;
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        width: 50%;
+        max-width: 320px;  /* Limit max width */
+        min-width: 160px;  /* Ensure minimum width for tap targets */
+        transition: background-color 0.3s ease, box-shadow 0.3s ease, color 0.3s ease;
+        user-select: none;
     }
 
+    /* Button hover effect */
     div.stButton > button:hover {
         background-color: #303f9f;
         box-shadow: 0 6px 12px rgba(48, 63, 159, 0.6);
-        color:white;
-    }
-    div.stButton > button p {
-        font-size:1.3rem;
-        color: inherit; /* Make sure <p> inside button inherits button text color */
+        color: white;
     }
 
+    /* Paragraph inside button */
+    div.stButton > button p {
+        font-size: 1.3rem;
+        color: inherit; /* Inherit button text color */
+        margin: 0; /* Remove default margin */
+        user-select: none;
+        pointer-events: none; /* Make text non-interactive */
+    }
+
+    /* Paragraph hover inside button */
     div.stButton > button:hover p {
-        color: inherit; /* Ensure no color change on hover for <p> */
-    }   
-    div.stButton > button:active{
+        color: inherit; /* No color change on hover */
+    }
+
+    /* Button active (pressed) state */
+    div.stButton > button:active {
         background-color: #1a237e; /* darker blue for pressed effect */
-        box-shadow: inset 0 3px 5px rgba(0,0,0,0.3);
+        box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.3);
         color: white;
         transform: translateY(2px);
     }
-    div.stButton > button:focus-visible, 
-    div.stButton > button:focus:not(:active){
+
+    /* Button focus-visible and focus:not active for accessibility */
+    div.stButton > button:focus-visible,
+    div.stButton > button:focus:not(:active) {
         color: white;
-        background-color: #303f9f;       /* slightly darker background on focus */
-        transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        background-color: #303f9f;
+        outline: 3px solid #1a237e;
+        outline-offset: 3px;
+        box-shadow: 0 0 8px 3px rgba(26, 35, 126, 0.6);
+        transition: box-shadow 0.3s ease, background-color 0.3s ease, outline 0.3s ease;
     }
-    </style>
+
+    /* Responsive adjustments */
+
+    /* Smaller screens: stack buttons full width and reduce text size */
+    @media (max-width: 480px) {
+        div.stButton > button {
+            width: 100% !important;
+            max-width: 100% !important;
+            min-width: auto !important;
+            font-size: 1.1rem;
+            padding: 1em;
+        }
+
+        div.stButton > button p {
+            font-size: 1.2rem;
+        }
+    }
+
+    /* Medium screens adjustments */
+    @media (min-width: 481px) and (max-width: 768px) {
+        div.stButton > button {
+            width: 65%;
+            max-width: 280px;
+        }
+
+        div.stButton > button p {
+            font-size: 1.3rem;
+        }
+    }
+
+</style>
+
 """
 
 def landing_page():
