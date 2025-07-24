@@ -35,6 +35,9 @@ signup_page_styles = """
         padding: 2rem;
         box-sizing: border-box;
     }
+    p{
+        color:black;
+    }
     #create-a-account {
         text-align: center;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
