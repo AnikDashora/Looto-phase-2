@@ -167,6 +167,7 @@ signup_page_styles = """
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         transition: border-color 0.3s ease;
         box-shadow: none !important;
+        background-color:white;
     }
 
     input[id^="text_input_"]:focus {
