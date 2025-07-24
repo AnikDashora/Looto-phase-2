@@ -35,9 +35,7 @@ signup_page_styles = """
         padding: 2rem;
         box-sizing: border-box;
     }
-    p{
-        color:black;
-    }
+
     #create-a-account {
         text-align: center;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -127,6 +125,11 @@ signup_page_styles = """
         transform: translateY(1px);
     }
 
+    button[kind="tertiary"]>div>p{
+        font-size:1rem;
+        text-align:center;
+    }
+
     /* Center buttons nicely in columns */
     .stColumns > div {
         display: flex;
@@ -170,6 +173,12 @@ signup_page_styles = """
         border-color: #1a237e;
         outline: none;
         box-shadow: 0 0 6px rgba(26, 35, 126, 0.5);
+    }
+    .stTextInput > label > div > p {
+        font-weight: 700;
+        color: black;   /* a blue color */
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
     }
 
     /* Placeholder text style */

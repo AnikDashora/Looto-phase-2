@@ -123,6 +123,11 @@ login_page_style = """
         text-decoration: none;
     }
 
+    button[kind="tertiary"]>div>p{
+        font-size:1rem;
+        text-align:center;
+    }
+
     /* Center buttons nicely in columns */
     .stColumns > div {
         display: flex;
@@ -172,6 +177,12 @@ login_page_style = """
     div.stTextInput > div > input::placeholder {
         color: #7a7a7a;
         font-style: italic;
+    }
+    .stTextInput > label > div > p {
+        font-weight: 700;
+        color: black;   /* a blue color */
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
     }
 
     /* Error message styling */
