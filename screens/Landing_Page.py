@@ -54,7 +54,7 @@ landing_page_styles = """
 
     /* Subheader styling */
     h2[data-baseweb="heading"] {
-        font-size: 1.75rem;
+        font-size: 1rem;
         font-weight: 500;
         margin-bottom: 2rem;
         color: #3949ab; /* medium blue */
