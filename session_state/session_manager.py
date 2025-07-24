@@ -16,5 +16,24 @@ PAGES = (
     "looto/auth/login_page"#7
 )
 
+class NavigationSession:
+    def __init__(self):
+        self.pages = [0]
+        self.page_index = 0
+    
+    def to_signup(self):
+        if(self.pages[-1] == 7):
+            self.pages[-1] = 6
+        else:
+            self.pages.append(6)
+            self.page_index += 1
+    
+    def to_login(self):
+        if(self.pages[-1] == 6):
+            self.pages[-1] = 7
+        else:
+            self.pages.append(7)
+            self.page_index += 1
 
+    
         

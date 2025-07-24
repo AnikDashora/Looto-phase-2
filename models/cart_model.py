@@ -57,5 +57,25 @@ class UserCart(sql_connection):
         except Exception as e:
             print(f"Error executing query: {e}")
 
+    def add_to_cart(self,product_id):
+        if(product_id not in self.user_cart.keys()):
+            self.user_cart[product_id] = 1
+        else:
+            self.user_cart[product_id] += 1
+    
+    def remove_from_cart(self,product_id):
+        if(product_id not in self.user_cart.keys()):
+            raise Exception(f"The product with {product_id} doesn't exist")
+        
+        if(self.user_cart[product_id] == 1):
+            del self.user_cart[product_id]
+        else:
+            self.user_cart[product_id] -= 1
+    
+    def delete_from_cart(self,product_id):
+        if(product_id not in self.user_cart.keys()):
+            raise Exception(f"The product with {product_id} doesn't exist")
+        else:
+            del self.user_cart[product_id]
 
         

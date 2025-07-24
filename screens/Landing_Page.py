@@ -6,6 +6,8 @@ import os
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
+
+
 landing_page_styles = """
     <style>
     /* Hide Streamlit header, menu, and footer */
@@ -93,6 +95,7 @@ landing_page_styles = """
         border: none;
         box-shadow: 0 4px 8px rgba(57, 73, 171, 0.4);
         cursor: pointer;
+        width:50%;
         transition: background-color 0.3s ease, box-shadow 0.3s ease;
     }
 
@@ -102,6 +105,7 @@ landing_page_styles = """
         color:white;
     }
     div.stButton > button p {
+        font-size:1.3rem;
         color: inherit; /* Make sure <p> inside button inherits button text color */
     }
 
@@ -128,5 +132,5 @@ def landing_page():
     st.header("Welcome to LOOTO")
     tag_line = "Ab nahi loge tho kab....."
     st.subheader(tag_line)
-    st.button("Let's start")
+    st.button("Let's start",on_click=st.session_state.user_navigation.to_signup)
 
