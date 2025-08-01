@@ -181,7 +181,7 @@ body {
 .st-key-back-btn{
     display: flex;
     gap: 1rem;
-    align-items: center;
+    align-items: flex-end;
     justify-content: flex-end;
     margin-left: auto;
 }
