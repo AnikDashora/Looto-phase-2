@@ -91,7 +91,7 @@ main_styles = """
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: transparent;
+            background: white;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             position: relative;
             z-index: 100;
@@ -182,11 +182,7 @@ main_styles = """
             text-align: center;
             padding: 4rem 2rem;
             position: relative;
-            background: linear-gradient(135deg, 
-                rgba(99, 102, 241, 0.08) 0%, 
-                rgba(245, 158, 11, 0.06) 35%, 
-                rgba(6, 214, 160, 0.08) 70%, 
-                rgba(99, 102, 241, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(245, 158, 11, 0.06) 35%, rgba(6, 214, 160, 0.08) 70%, rgba(99, 102, 241, 0.05) 100%);
         }
 
         .st-key-hero-content {
@@ -310,6 +306,8 @@ main_styles = """
             min-width: 160px;
             white-space: nowrap;
             width: 100%;
+            height:60px;
+            min-height:fit-content;
         }
 
         /* Shop Now Button - Primary style */
