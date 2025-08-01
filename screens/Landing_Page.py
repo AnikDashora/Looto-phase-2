@@ -616,7 +616,8 @@ def landing_page():
                     st.button(
                         label="Sign in",
                         key = "sign-in-button",
-                        type="secondary"
+                        type="secondary",
+                        on_click=st.session_state["navigation"].to_signup_page
                     )
 
     with st.container(key = "main"):
@@ -746,4 +747,3 @@ def landing_page():
                 unsafe_allow_html=True
             )       
 
-landing_page()

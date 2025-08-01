@@ -87,18 +87,40 @@
             50% { transform: translateY(-5px); }
         }
 
-        .back-home {
-            color: var(--muted-foreground);
-            text-decoration: none;
-            font-weight: var(--font-weight-medium);
-            transition: all 0.3s ease;
-            padding: 0.5rem 1rem;
-            border-radius: var(--radius);
+        .back-button {
+            display: flex;
+            align-items: center;
         }
 
-        .back-home:hover {
-            color: var(--primary);
+        .stButton {
+            display: flex;
+            align-items: center;
+        }
+
+        .stButton button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .stButton button:hover {
             background: rgba(99, 102, 241, 0.1);
+        }
+
+        .stButton button p {
+            color: var(--muted-foreground);
+            font-weight: var(--font-weight-medium);
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .stButton button:hover p {
+            color: var(--primary);
         }
 
         /* Signup Container */
@@ -367,8 +389,14 @@
 </head>
 <body>
     <div class="header">
-        <a href="#" class="logo">Looto</a>
-        <a href="#" class="back-home">← Back to Home</a>
+        <div class="logo">Looto</div>
+        <div class="back-button">
+            <div class="stButton">
+                <button>
+                    <p>← Back to Home</p>
+                </button>
+            </div>
+        </div>
     </div>
 
     <div class="signup-container">
@@ -498,7 +526,7 @@
         });
 
         // Back to home redirect
-        document.querySelector('.back-home').addEventListener('click', function(e) {
+        document.querySelector('.stButton button').addEventListener('click', function(e) {
             e.preventDefault();
             // Here you would redirect to home page
             alert('Redirecting to home page...');
