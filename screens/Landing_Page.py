@@ -71,8 +71,8 @@ main_styles = """
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--background);
-            color: var(--foreground);
+            background: white;
+            color: #1a1a1a;
             line-height: 1.6;
             overflow-x: hidden;
         }
@@ -81,8 +81,9 @@ main_styles = """
             padding: 0;
         }
 
-        .stMain .stVerticalBlock{
-            gap: 0;
+        .stMainBlockContainer .stVerticalBlock{
+            row-gap:0;
+            column-gap:1rem;
         }
 
         /* HEADER STYLES */
@@ -91,7 +92,7 @@ main_styles = """
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
+            background: transparent;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             position: relative;
             z-index: 100;
@@ -182,7 +183,13 @@ main_styles = """
             text-align: center;
             padding: 4rem 2rem;
             position: relative;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(245, 158, 11, 0.06) 35%, rgba(6, 214, 160, 0.08) 70%, rgba(99, 102, 241, 0.05) 100%);
+            background: linear-gradient(
+                135deg,
+                rgba(99, 102, 241, 0.15) 0%,       /* Soft Indigo */
+                rgba(245, 158, 11, 0.12) 35%,      /* Warm Amber */
+                rgba(6, 214, 160, 0.14) 70%,       /* Fresh Mint */
+                rgba(99, 102, 241, 0.10) 100%      /* Return to Indigo */
+                );
         }
 
         .st-key-hero-content {
