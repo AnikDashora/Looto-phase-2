@@ -964,7 +964,8 @@ def signup_page():
         st.button(
             label="Sign In Instead",
             key="signin-page-button",
-            type="tertiary"
+            type="tertiary",
+            on_click=st.session_state["navigation"].handel_already_a_user
         )
 
 

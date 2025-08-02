@@ -610,7 +610,8 @@ def landing_page():
                     st.button(
                         label="Login",
                         key = "login-button",
-                        type="tertiary"
+                        type="tertiary",
+                        on_click=st.session_state["navigation"].to_login_page
                     )
                 with signin_col:
                     st.button(

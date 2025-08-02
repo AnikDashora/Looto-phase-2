@@ -1,245 +1,931 @@
 import streamlit as st
+import os 
+import sys
+
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
+
+from services.auth_service import ValidateUser
 
 remove_header_footer = """
-    <style>
-        #MainMenu {visibility: hidden;}
-        header {visibility: hidden;}
-        footer {visibility: hidden;}
-
-        /* Hide the orange loading progress bar */
-        div[data-testid="stDecoration"] {
-            display: none !important;
-        }
-
-        /* Remove top padding to avoid white space */
-        .block-container {
-            padding-top: 0rem !important;
-        }
-    </style>
+    #MainMenu {visibility: hidden;}
+    header {visibility: hidden;}
+    footer {visibility: hidden;}
+    /* Hide the orange loading progress bar */
+    div[data-testid="stDecoration"] {
+        display: none !important;
+    }
+    .stDeployButton{
+        display:none;
+    }
+    /* Remove top padding to avoid white space */
+    .block-container {
+        padding-top: 1rem !important;
+    }
 """
 
-login_page_style = """
-<style>
-    /* Center the login heading */
-    section[data-testid="stMain"] {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        min-height: 80vh;
-        background: linear-gradient(135deg, #f0f4ff, #d9e4ff);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        color: #222;
-        padding: 2rem;
-        box-sizing: border-box;
-    }
-    h2#login {
-        text-align: center;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-weight: 700;
-        font-size: 2.8rem;
-        margin-top: 0.5rem;
-        margin-bottom: 1rem;
-        color: #1a237e;
-        text-shadow: 1px 1px 3px rgba(26, 35, 126, 0.3);
-        letter-spacing: normal;
-        line-height: 1.2;
-    }
 
-    /* Secondary button (Login) style */
-    button[kind="secondary"] {
-        display: flex !important;
-        justify-content: center;
-        align-items: center;
-        margin: 0 auto;
-        background-color: #3949AB;
-        color: white;
-        font-size: 1.1rem;
-        font-weight: 600;
-        padding: 0.65em 2.5em;
-        border-radius: 10px;
-        border: none;
-        box-shadow: 0 5px 12px rgba(57, 73, 171, 0.45);
-        cursor: pointer;
-        transition: background-color 0.35s ease, box-shadow 0.35s ease;
-        min-width: 140px;
-        user-select: none;
-        width:100%;
-    }
+other_styles = """
+/* =============================================================================
+   ENHANCED CSS STYLES FOR STREAMLIT SIGNIN PAGE - VERSATILE VERSION
+   ============================================================================= */
 
-    button[kind="secondary"]:hover {
-        background-color: #303f9f;
-        color:white;
-        box-shadow: 0 7px 14px rgba(48, 63, 159, 0.55);
-    }
 
-    button[kind="secondary"]:active {
-        background-color: #1a237e;
-        box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.35);
-        transform: translateY(2px);
-    }
+/* ===== CSS CUSTOM PROPERTIES (CSS Variables) ===== */
+:root {
+    --font-size: 14px;
+    --background: #fefefe;
+    --foreground: #1a1a1a;
+    --card: #ffffff;
+    --card-foreground: #1a1a1a;
+    --popover: #ffffff;
+    --popover-foreground: #1a1a1a;
+    --primary: #6366f1;
+    --primary-foreground: #ffffff;
+    --secondary: #f59e0b;
+    --secondary-foreground: #ffffff;
+    --muted: #f8fafc;
+    --muted-foreground: #6b7280;
+    --accent: #06d6a0;
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: rgba(99, 102, 241, 0.12);
+    --input: transparent;
+    --input-background: #f8fafc;
+    --switch-background: #e5e7eb;
+    --font-weight-medium: 500;
+    --font-weight-normal: 400;
+    --ring: #6366f1;
+    --radius: 0.75rem;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.15);
+    --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
 
-    button[kind="secondary"]:focus-visible,
-    button[kind="secondary"]:focus:not(:active) {
-        outline: 3px solid #1a237e;
-        outline-offset: 3px;
-        box-shadow: 0 0 8px 3px rgba(26, 35, 126, 0.6);
-        background-color: #303f9f;
-        color: white;
-        transition: box-shadow 0.3s ease, background-color 0.3s ease;
-    }
 
-    /* Tertiary button (New User?) style */
-    button[kind="tertiary"] {
-        background-color: transparent;
-        color: #3949AB;
-        font-size: 1rem;
-        font-weight: 600;
-        padding: 0.4em 1em;
-        border: none;
-        cursor: pointer;
-        text-decoration: none;
-        user-select: none;
-        transition: color 0.25s ease;
-        min-width: 120px;
-        width:100%;
-    }
+/* ===== BODY AND MAIN CONTAINER STYLING ===== */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+    background: linear-gradient(135deg, 
+        rgba(99, 102, 241, 0.08) 0%, 
+        rgba(245, 158, 11, 0.06) 35%, 
+        rgba(6, 214, 160, 0.08) 70%, 
+        rgba(99, 102, 241, 0.05) 100%) !important;
+    color: var(--foreground) !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+    min-height: 100vh !important;
+}
 
-    button[kind="tertiary"]:hover {
-        color: #1a237e;
-        text-decoration: underline;
-    }
 
-    button[kind="tertiary"]:active {
-        color: #121858;
-        transform: translateY(1px);
-    }
+/* Main Streamlit app container - enable scrolling */
+.stApp {
+    background: transparent !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
 
-    button[kind="tertiary"]:focus-visible,
-    button[kind="tertiary"]:focus:not(:active) {
-        outline: none;
-        color: #303f9f;
-        text-decoration: none;
-    }
 
-    button[kind="tertiary"]>div>p{
-        font-size:1rem;
-        text-align:center;
-    }
+/* App view container - allow natural flow */
+.stAppViewContainer {
+    background: transparent !important;
+    padding: 0 !important;
+    min-height: 100vh !important;
+    flex: 1 !important;
+}
 
-    /* Center buttons nicely in columns */
-    .stColumns > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0.3rem 0;
-        width:100%;
-    }
 
-    /* Fade-in animation for form elements */
-    h2#login,
-    .stElementContainer.st-key-login_user_email,
-    .stElementContainer.st-key-login_user_password,
-    .stElementContainer.st-key-login_button,
-    .stElementContainer.st-key-new_user_button {
-        animation: fade_in 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+/* Main block container - remove fixed positioning constraints */
+.stMainBlockContainer {
+    background: transparent !important;
+    padding: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.stMain .stMainBlockContainer{
+    padding: 0;
+}
+
+.stMainBlockContainer .stVerticalBlock{
+    row-gap:0;
+    column-gap:1rem;
+}
+
+
+/* ===== HEADER STYLING (st-key-header) ===== */
+.st-key-header {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid var(--border) !important;
+    padding: 1rem 2rem !important;
+    margin: 0 !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    animation: slideInDown 0.6s ease-out !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+
+@keyframes slideInDown {
+    from {
         opacity: 0;
-        transform: translateY(20px) scale(0.90);
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Header horizontal layout */
+.st-key-header .stHorizontalBlock {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+}
+
+
+/* ===== LOGO STYLING ===== */
+.logo {
+    font-size: clamp(1.5rem, 4vw, 2.2rem) !important;
+    font-weight: 700 !important;
+    color: var(--primary) !important;
+    text-decoration: none !important;
+    animation: logoFloat 3s ease-in-out infinite !important;
+    letter-spacing: -0.02em !important;
+}
+
+
+@keyframes logoFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-3px); }
+}
+
+
+/* ===== BACK BUTTON STYLING ===== */
+.st-key-back-btn{
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+
+.st-key-back-btn .stHorizontalBlock{
+    gap: 1rem !important;
+    justify-content: flex-end !important;
+    margin-left: auto;
+}
+
+
+.st-key-back-btn .stColumn {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: auto !important;
+    padding: 0 !important;
+}
+
+
+.st-key-back-button .stButton button {
+    background: rgba(99, 102, 241, 0.08) !important;
+    border: 1px solid rgba(99, 102, 241, 0.15) !important;
+    color: var(--primary) !important;
+    cursor: pointer !important;
+    padding: 0.625rem 1.25rem !important;
+    border-radius: var(--radius) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    display: flex !important;
+    align-items: center !important;
+    font-weight: var(--font-weight-medium) !important;
+    font-size: 0.95rem !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+
+.st-key-back-button .stButton button:hover {
+    background: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-md) !important;
+    border-color: var(--primary) !important;
+}
+
+
+.st-key-back-button .stButton button p {
+    margin: 0 !important;
+    color: inherit !important;
+}
+
+
+/* ===== SIGNIN CONTAINER STYLING ===== */
+.st-key-signin-container {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 2rem 1rem !important;
+    min-height: calc(100vh - 100px) !important;
+    flex: 1 !important;
+}
+
+
+/* Main card container - single unified box */
+.st-key-signin-container {
+    background: var(--card) !important;
+    border-radius: calc(var(--radius) + 8px) !important;
+    box-shadow: var(--shadow-xl) !important;
+    padding: clamp(2rem, 5vw, 3.5rem) !important;
+    max-width: min(450px, 90vw) !important;
+    width: 100% !important;
+    position: relative !important;
+    overflow: hidden !important;
+    animation: slideInUp 0.8s ease-out !important;
+    height: fit-content !important;
+    margin: 0 auto !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
+/* Animated gradient border */
+.st-key-signin-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    background-size: 200% 100%;
+    animation: gradientMove 3s ease-in-out infinite;
+}
+
+
+@keyframes gradientMove {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+
+/* Subtle pattern overlay */
+.st-key-signin-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.02) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.02) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+
+/* ===== SIGNIN HEADER STYLING ===== */
+.signin-header {
+    text-align: center !important;
+    margin-bottom: clamp(1.5rem, 4vw, 2.5rem) !important;
+    position: relative !important;
+}
+
+
+.signin-title {
+    font-size: clamp(2rem, 6vw, 2.8rem) !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.75rem !important;
+    background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    animation: titleGlow 2s ease-in-out infinite alternate !important;
+    letter-spacing: -0.02em !important;
+    line-height: 1.2 !important;
+}
+
+
+@keyframes titleGlow {
+    from { filter: brightness(1); }
+    to { filter: brightness(1.1); }
+}
+
+
+.signin-subtitle {
+    color: var(--muted-foreground) !important;
+    font-size: clamp(1rem, 3vw, 1.15rem) !important;
+    animation: fadeIn 1s ease-out 0.3s both !important;
+    font-weight: 400 !important;
+    line-height: 1.5 !important;
+}
+
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ===== FORM STYLING ===== */
+.st-key-signin-form {
+    display: block !important;
+    position: relative !important;
+}
+
+
+.st-key-form-group-1,
+.st-key-form-group-2 {
+    margin-bottom: 1.75rem !important;
+    animation: slideInLeft 0.6s ease-out !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    position: relative !important;
+}
+
+
+.st-key-form-group-1 { animation-delay: 0.4s !important; }
+.st-key-form-group-2 { animation-delay: 0.5s !important; }
+
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+
+/* ===== INPUT FIELD STYLING ===== */
+
+.stTextInput:focus-within{
+    border:none;!important
+    outline:none;!important
+}
+
+div[data-baseweb="input"]{
+    border:none;
+    height: 50px;
+    width:100%;
+    padding:0;
+    border-radius: var(--radius) !important;
+}
+
+.stTextInput label {
+    display: block !important;
+    margin-bottom: 0.625rem !important;
+    font-weight: var(--font-weight-medium) !important;
+    color: var(--card-foreground) !important;
+    font-size: 0.95rem !important;
+    transition: color 0.3s ease !important;
+    letter-spacing: 0.01em !important;
+}
+
+
+.stTextInput input {
+    width: 100% !important;
+    padding: 1rem 1.25rem !important;
+    border: 1.5px solid var(--border) !important;
+    border-radius: var(--radius) !important;
+    background: var(--input-background) !important;
+    color: var(--card-foreground) !important;
+    font-size: 1rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    outline: none !important;
+    box-shadow: var(--shadow-sm) !important;
+    font-family: inherit !important;
+    height:50px;
+}
+
+
+.stTextInput input:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08), var(--shadow-sm) !important;
+    background: var(--card) !important;
+}
+
+
+.stTextInput input:hover:not(:focus) {
+    border-color: rgba(99, 102, 241, 0.25) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+
+.stTextInput input::placeholder {
+    color: var(--muted-foreground) !important;
+    transition: opacity 0.3s ease !important;
+    font-size: 1rem !important;
+    font-weight:500;
+}
+
+
+.stTextInput input:focus::placeholder {
+    opacity: 0.6 !important;
+}
+
+
+/* ===== BUTTON STYLING ===== */
+.st-key-signin-button {
+    margin: 2rem 0 1.5rem 0 !important;
+    animation: slideInUp 0.6s ease-out 0.7s both !important;
+}
+
+
+.st-key-signin-button .stButton button {
+    background: linear-gradient(135deg, var(--primary), #8b5cf6) !important;
+    color: var(--primary-foreground) !important;
+    box-shadow: var(--shadow-md) !important;
+    width: 100% !important;
+    font-size: 1.1rem !important;
+    padding: 1.25rem !important;
+    border: none !important;
+    border-radius: var(--radius) !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-align: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+    letter-spacing: 0.02em !important;
+    min-height: 52px !important;
+}
+
+
+.st-key-signin-button .stButton button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease !important;
+}
+
+
+.st-key-signin-button .stButton button:hover::before {
+    left: 100% !important;
+}
+
+
+.st-key-signin-button .stButton button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+
+.st-key-signin-button .stButton button:active {
+    transform: translateY(0px) !important;
+    transition: transform 0.1s ease !important;
+}
+
+
+.st-key-signup-page-button {
+    animation: fadeIn 0.6s ease-out 0.8s both !important;
+    margin: 2rem 0 1.5rem 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    width:100%;
+}
+
+
+.st-key-signup-page-button .stButton button {
+    background: transparent !important;
+    color: var(--primary) !important;
+    border: 1.5px solid var(--primary) !important;
+    width: 100% !important;
+    padding: 1rem 1.5rem !important;
+    border-radius: var(--radius) !important;
+    font-weight: var(--font-weight-medium) !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    font-size: 1rem !important;
+    text-align: center !important;
+    min-height: 48px !important;
+    box-shadow: var(--shadow-sm) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 150px !important;
+}
+
+
+.st-key-signup-page-button .stButton button:hover {
+    background: var(--primary) !important;
+    color: var(--primary-foreground) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+
+.stButton button p {
+    margin: 0 !important;
+    font-weight: inherit !important;
+    color: inherit !important;
+    line-height: 1.4 !important;
+}
+
+
+/* ===== DIVIDER STYLING ===== */
+.divider {
+    display: flex !important;
+    align-items: center !important;
+    margin: 2rem 0 1.5rem 0 !important;
+    color: var(--muted-foreground) !important;
+    animation: fadeIn 0.6s ease-out 0.75s both !important;
+    position: relative !important;
+}
+
+
+.divider::before,
+.divider::after {
+    content: '' !important;
+    flex: 1 !important;
+    height: 1px !important;
+    background: linear-gradient(to right, transparent, var(--border), transparent) !important;
+}
+
+
+.divider span {
+    padding: 0 1.5rem !important;
+    font-size: 0.9rem !important;
+    background: var(--card) !important;
+    font-weight: var(--font-weight-medium) !important;
+    white-space: nowrap !important;
+}
+
+
+/* ===== TERMS STYLING ===== */
+.terms {
+    font-size: 0.85rem !important;
+    color: var(--muted-foreground) !important;
+    text-align: center !important;
+    margin-top: 1.5rem !important;
+    line-height: 1.6 !important;
+    animation: fadeIn 0.6s ease-out 0.9s both !important;
+    padding: 0 0.5rem !important;
+}
+
+
+.terms a {
+    color: var(--primary) !important;
+    text-decoration: none !important;
+    transition: all 0.3s ease !important;
+    font-weight: var(--font-weight-medium) !important;
+    position: relative !important;
+}
+
+
+.terms a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: var(--primary);
+    transition: width 0.3s ease;
+}
+
+
+.terms a:hover {
+    color: var(--secondary) !important;
+}
+
+
+.terms a:hover::after {
+    width: 100%;
+    background-color: var(--secondary);
+}
+
+
+/* ===== STREAMLIT OVERRIDES - REMOVE ALL INTERNAL BOXES ===== */
+.stVerticalBlock > div:not(:last-child) {
+    margin-bottom: 0 !important;
+}
+
+
+.stElementContainer {
+    margin-bottom: 0 !important;
+}
+
+
+/* Remove all internal container styling */
+.st-key-signin-form .stVerticalBlock,
+.st-key-form-group-1 .stVerticalBlock,
+.st-key-form-group-2 .stVerticalBlock {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+
+/* Remove container backgrounds and borders */
+div[data-testid="stVerticalBlock"],
+div[data-testid="stHorizontalBlock"] {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+
+/* Specifically target form containers */
+.st-key-signin-form > div,
+.st-key-form-group-1 > div,
+.st-key-form-group-2 > div {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+
+/* Hide unwanted elements */
+.st-emotion-cache-1dumvfu,
+[data-testid="stAppIframeResizerAnchor"] {
+    display: none !important;
+}
+
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .st-key-signin-container {
+        padding: 1.5rem 1rem !important;
+        min-height: calc(100vh - 80px) !important;
     }
 
-    @keyframes fade_in {
-        to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            pointer-events: auto;
-        }
+
+    .st-key-header {
+        padding: 0.875rem 1rem !important;
     }
 
-    /* Input fields styling */
-    input[id^="text_input_"] {
-        border-radius: 8px;
-        border: 1.8px solid #3949AB;
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        transition: border-color 0.3s ease;
+
+    .st-key-back-button .stButton button {
+        padding: 0.5rem 1rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    .st-key-form-group-1,
+    .st-key-form-group-2 {
+        margin-bottom: 1.5rem !important;
+    }
+    
+    .stTextInput input {
+        padding: 0.875rem 1rem !important;
+        font-size: 16px !important; /* Prevents zoom on iOS */
+    }
+    
+    .st-key-signup-page-button .stButton button {
+        min-width: 120px !important;
+        padding: 0.875rem 1.25rem !important;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .st-key-signin-container {
+        padding: 1rem !important;
+    }
+    
+    .divider span {
+        padding: 0 1rem !important;
+        font-size: 0.85rem !important;
+    }
+    
+    .terms {
+        font-size: 0.8rem !important;
+        padding: 0 !important;
+    }
+    
+    .st-key-signup-page-button .stButton button {
+        min-width: 100px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+
+@media (min-width: 1200px) {
+    .st-key-signin-container {
+        max-width: 480px !important;
+        padding: 4rem !important;
+    }
+}
+
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .st-key-signin-container::before {
+        animation: none !important;
+    }
+    
+    .logo {
+        animation: none !important;
+    }
+}
+
+
+@media (prefers-color-scheme: dark) {
+    /* Dark mode support can be added here if needed */
+}
+
+
+/* ===== LOADING STATE STYLING ===== */
+.btn-loading {
+    position: relative !important;
+    color: transparent !important;
+}
+
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+
+/* ===== ENHANCED FOCUS STYLES ===== */
+.stButton button:focus-visible {
+    outline: 2px solid var(--ring) !important;
+    outline-offset: 2px !important;
+}
+
+
+.stTextInput input:focus-visible {
+    outline: 2px solid var(--ring) !important;
+    outline-offset: 2px !important;
+}
+
+
+/* ===== PRINT STYLES ===== */
+@media print {
+    .st-key-header,
+    .st-key-back-button {
+        display: none !important;
+    }
+    
+    .st-key-signin-container {
         box-shadow: none !important;
-        background-color:white;
-        color:black;
+        border: 1px solid #000 !important;
     }
+}
+"""
 
-    input[id^="text_input_"]:focus {
-        border-color: #1a237e;
-        outline: none;
-        box-shadow: 0 0 6px rgba(26, 35, 126, 0.5);
-    }
 
-    /* Placeholder text style */
-    input[id^="text_input_"]::placeholder {
-        color: #7a7a7a;
-        font-style: italic;
-    }
-    .stTextInput > label > div > p {
-        font-weight: 700;
-        color: black;   /* a blue color */
-        font-size: 1rem;
-        margin-bottom: 0.25rem;
-    }
-
-    /* Error message styling */
-    div.stAlert {
-        max-width: 350px;
-        margin: 0.5rem auto 1rem auto;
-        font-weight: 600;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        text-align: center;
-    }
+styles = f"""
+<style>
+{remove_header_footer}
+{other_styles}
 </style>
 """
 
-heading = "<h2 id = 'login'>Login</h2>"
 
-def login_page():
-    st.markdown(remove_header_footer,unsafe_allow_html=True)
-    st.markdown(login_page_style,unsafe_allow_html=True)
-    st.markdown(heading,unsafe_allow_html=True)
-    useremail = st.text_input("Email",placeholder="Your Email",key = "login_user_email")
-    # email_flag = validate_email(useremail)
-    userpassword = st.text_input("Password",placeholder="Your Password",type="password",key = "login_user_password")
-    empty_col,login_btn_col,new_user_btn = st.columns([1,3,1])
-    with empty_col:
-        st.empty()
-    with login_btn_col:
-        login_btn = st.button("Login",type="secondary",key = "login_button")
-    with new_user_btn:
-        st.button(
-            "New User?",
-            type="tertiary",
-            key = "new_user_button",
-            on_click=st.session_state.user_navigation.to_signup
+def signin_page():
+    st.markdown(styles, unsafe_allow_html=True)
+
+
+    # Header section with sticky positioning
+    with st.container(key="header"):
+        logo_col, button_col = st.columns([3, 1], gap="small")
+        with logo_col:
+            st.markdown(
+                """
+                <div class="logo">Looto</div>
+                """,
+                unsafe_allow_html=True
+            )
+        with button_col:
+            with st.container(key = "back-btn"):
+                st.button(
+                    label="Back To Home",
+                    key="back-button",
+                    type="tertiary",
+                    icon=":material/arrow_back:",
+                    on_click=st.session_state["navigation"].to_last_page
+                )
+
+
+    # Main signin container
+    with st.container(key="signin-container"):
+        # Signin header
+        st.markdown(
+            """
+            <div class="signin-header">
+                <h1 class="signin-title">Welcome Back</h1>
+                <p class="signin-subtitle">Sign in to your Looto account</p>
+            </div>
+            """,
+            unsafe_allow_html=True
         )
-    # if(login_btn):
-    #     if(email_flag and useremail and if_user_exsits(useremail)):
-    #         if(userpassword):
-    #             if(verify_user(useremail,userpassword)):
-    #                 save_user_state(useremail)
-    #                 save_user_cart_item_state(read_user_cart(st.session_state["user_id"]))
-    #                 save_user_orders_state(read_user_order(st.session_state["user_id"]))
-    #                 user_exist()
-    #                 if(st.session_state["pending_cart_item"] is not None):
-    #                     add_to_cart(
-    #                         st.session_state["user_id"],
-    #                         st.session_state["pending_cart_item"],
-    #                         st.session_state["user_cart_item"]
-    #                     )
-    #                     st.session_state["pending_cart_item"] = None
-    #                 go_to_last_page()
-    #                 st.rerun()
-    #             else:
-    #                 st.error("Invalid Username or Password")
-    #         else:
-    #             st.error("Invalid Entries")
-    #     else:
-    #         st.error("User doesn't Exist")
 
+
+        # Signin form
+        with st.container(key="signin-form"):
+            with st.container(key="form-group-1"):
+                email = st.text_input(
+                    label="Email",
+                    key="form-input-email",
+                    placeholder="Enter your email"
+                )
+                email_flag = ValidateUser.validate_email(email)
+            
+            with st.container(key="form-group-2"):
+                password = st.text_input(
+                    label="Password",
+                    key="form-input-password",
+                    placeholder="Enter your password",
+                    type="password"
+                )
+                password_flag = ValidateUser.validate_password(password)
+            
+            # Signin button with validation
+            st.button(
+                label="Sign In",
+                key="signin-button",
+                type="secondary"
+            )
+        
+        # Divider
+        st.markdown(
+            """
+            <div class="divider">
+                <span>Don't have an account?</span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+
+        # Sign up button
+        st.button(
+            label="Create Account",
+            key="signup-page-button",
+            type="tertiary",
+            on_click=st.session_state["navigation"].handel_new_user
+        )
+
+
+        # Terms and conditions
+        st.markdown(
+            """
+            <div class="terms">
+                By signing in, you agree to our 
+                <a href="#" target="_blank">Terms of Service</a> and 
+                <a href="#" target="_blank">Privacy Policy</a>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
