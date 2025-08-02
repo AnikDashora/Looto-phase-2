@@ -855,7 +855,12 @@ styles = f"""
 
 def signup_page():
     st.markdown(styles, unsafe_allow_html=True)
-
+    st.set_page_config(
+        page_title="Looto - Your Trusted Shopping Destination",
+        page_icon="🛍️",
+        layout="wide",
+        initial_sidebar_state="collapsed"
+    )
 
     # Header section with sticky positioning
     with st.container(key="header"):
