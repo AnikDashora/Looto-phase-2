@@ -639,7 +639,8 @@ def landing_page():
                         st.button(
                             label="Shop Now",
                             key = "shop-now-button",
-                            type="secondary"
+                            type="secondary",
+                            on_click=st.session_state["navigation"].to_home_page
                         )
                     with browse_categories_col:
                         st.button(

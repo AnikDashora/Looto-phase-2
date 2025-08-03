@@ -750,7 +750,8 @@ def home_page():
                             label="Login/Signup",
                             key = "nav-btn-3",
                             type="secondary",
-                            icon=":material/person:"
+                            icon=":material/person:",
+                            on_click=st.session_state["navigation"].to_signup_page
                         )
 
     with st.container(key = "category-bar"):
@@ -869,4 +870,4 @@ def home_page():
                                 
 
 
-home_page()
+

@@ -41,4 +41,8 @@ class NavigationState:
         (self.pages[self.page_index] == 1))):
             self.pages.pop()
             self.page_index -= 1
+    
+    def to_home_page(self):
+        self.pages.append(1)
+        self.page_index += 1 
 
