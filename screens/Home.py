@@ -844,7 +844,7 @@ def home_page():
                                     )
                                 else:
                                     with st.container(key = f"quantity-controls-{product+1}"):
-                                        dec_col, qty_col, inc_col = st.columns([0.5, 1, 0.5])
+                                        dec_col, qty_col, inc_col = st.columns([1, 2, 1])
                                         with dec_col:
                                             st.button(
                                                 type="tertiary",
