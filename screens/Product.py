@@ -485,10 +485,10 @@ product_styles = """
             display: flex;
             align-items: center;
             gap: 1rem;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             padding: 1.5rem;
             border-radius: var(--radius);
-            font-weight: 600;
+            font-weight: 500;
             transition: all 0.3s ease;
             cursor: pointer;
             border: 1px solid transparent;
@@ -588,7 +588,7 @@ product_styles = """
         }
 
         .st-key-add-to-cart .stButton button:hover {
-           background: var(--primary-dark);
+            background: var(--primary-dark);
             box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
         }
 
@@ -738,7 +738,7 @@ def product_page():
                     with user_col:
                         # label = ((st.session_state["current_user"].name).split(" "))[0] if(st.session_state["current_user"].user_exist) else "Login/Signup"
                         st.button(
-                            label="Login/Signup",
+                            label="Signup",
                             key = "nav-btn-3",
                             type="secondary",
                             icon=":material/person:",
