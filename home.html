@@ -46,7 +46,6 @@
         }
 
         .nav-container {
-            /* max-width: 1400px; */
             margin: 0 auto;
             padding: 0 2rem;
             display: flex;
@@ -73,6 +72,15 @@
 
         .search-bar {
             width: 100%;
+            position: relative;
+        }
+
+        .stTextInput {
+            width: 100%;
+        }
+
+        .stTextInput input {
+            width: 100%;
             padding: 0.75rem 1rem 0.75rem 3rem;
             border: 2px solid var(--border);
             border-radius: var(--radius);
@@ -81,19 +89,23 @@
             background: #f8fafc;
         }
 
-        .search-bar:focus {
+        .stTextInput input:focus {
             outline: none;
             border-color: var(--primary);
             background: white;
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
 
-        .search-icon {
+        .search-bar::before {
+            content: '\f002';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
             position: absolute;
             left: 1rem;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-secondary);
+            z-index: 1;
         }
 
         .nav-buttons {
@@ -102,7 +114,17 @@
             gap: 1rem;
         }
 
-        .nav-btn {
+        .nav-btn-1, .nav-btn-2, .nav-btn-3 {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-buttons .stButton {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-buttons .stButton button {
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -119,21 +141,30 @@
             border: 1px solid var(--border);
         }
 
-        .nav-btn:hover {
+        .nav-buttons .stButton button:hover {
             background: var(--primary);
             color: white;
             transform: translateY(-2px);
             box-shadow: var(--shadow);
         }
 
-        .login-btn {
+        .nav-btn-3 .stButton button {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
         }
 
-        .login-btn:hover {
+        .nav-btn-3 .stButton button:hover {
             background: linear-gradient(135deg, var(--primary-dark), #3730a3);
+        }
+
+        .nav-buttons .stButton button span {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-buttons .stButton button p {
+            margin: 0;
         }
 
         /* Category Bar */
@@ -144,7 +175,6 @@
         }
 
         .category-container {
-            /* max-width: 1400px; */
             margin: 0 auto;
             padding: 0 2rem;
             width: 100%;
@@ -157,7 +187,17 @@
             gap: 1rem;
         }
 
-        .category-btn {
+        .category-btn-1, .category-btn-2, .category-btn-3, .category-btn-4, .category-btn-5,
+        .category-btn-6, .category-btn-7, .category-btn-8, .category-btn-9, .category-btn-10 {
+            display: flex;
+        }
+
+        .categories .stButton {
+            width: 100%;
+        }
+
+        .categories .stButton button {
+            width: 100%;
             padding: 1rem 0.5rem;
             background: white;
             border: 1px solid var(--border);
@@ -171,11 +211,15 @@
             box-shadow: var(--shadow);
         }
 
-        .category-btn:hover {
+        .categories .stButton button:hover {
             background: var(--primary);
             color: white;
             transform: translateY(-3px);
             box-shadow: var(--shadow-lg);
+        }
+
+        .categories .stButton button p {
+            margin: 0;
         }
 
         /* Products Section */
@@ -204,7 +248,8 @@
             margin-bottom: 3rem;
         }
 
-        .product-card {
+        .product-card-1, .product-card-2, .product-card-3, .product-card-4, 
+        .product-card-5, .product-card-6, .product-card-7, .product-card-8 {
             background: white;
             border-radius: var(--radius);
             overflow: hidden;
@@ -214,9 +259,15 @@
             position: relative;
         }
 
-        .product-card:hover {
+        .product-card-1:hover, .product-card-2:hover, .product-card-3:hover, .product-card-4:hover,
+        .product-card-5:hover, .product-card-6:hover, .product-card-7:hover, .product-card-8:hover {
             transform: translateY(-8px);
             box-shadow: var(--shadow-lg);
+        }
+
+        .product-image-details-1, .product-image-details-2, .product-image-details-3, .product-image-details-4,
+        .product-image-details-5, .product-image-details-6, .product-image-details-7, .product-image-details-8 {
+            position: relative;
         }
 
         .product-image {
@@ -234,7 +285,10 @@
             transition: transform 0.3s ease;
         }
 
-        .product-card:hover .product-image img {
+        .product-card-1:hover .product-image img, .product-card-2:hover .product-image img,
+        .product-card-3:hover .product-image img, .product-card-4:hover .product-image img,
+        .product-card-5:hover .product-image img, .product-card-6:hover .product-image img,
+        .product-card-7:hover .product-image img, .product-card-8:hover .product-image img {
             transform: scale(1.05);
         }
 
@@ -250,12 +304,21 @@
             z-index: 1;
         }
 
-        .product-card:hover .product-image::before {
+        .product-card-1:hover .product-image::before, .product-card-2:hover .product-image::before,
+        .product-card-3:hover .product-image::before, .product-card-4:hover .product-image::before,
+        .product-card-5:hover .product-image::before, .product-card-6:hover .product-image::before,
+        .product-card-7:hover .product-image::before, .product-card-8:hover .product-image::before {
             left: 100%;
         }
 
-        .product-info {
+        .product-info-1, .product-info-2, .product-info-3, .product-info-4,
+        .product-info-5, .product-info-6, .product-info-7, .product-info-8 {
             padding: 1.5rem;
+        }
+
+        .product-details-1, .product-details-2, .product-details-3, .product-details-4,
+        .product-details-5, .product-details-6, .product-details-7, .product-details-8 {
+            margin-bottom: 1rem;
         }
 
         .product-title {
@@ -279,7 +342,19 @@
             margin-bottom: 1rem;
         }
 
-        .view-product-btn {
+        .view-product-btn-1, .view-product-btn-2, .view-product-btn-3, .view-product-btn-4,
+        .view-product-btn-5, .view-product-btn-6, .view-product-btn-7, .view-product-btn-8 {
+            width: 100%;
+            margin-bottom: 0.75rem;
+        }
+
+        .view-product-btn-1 .stButton, .view-product-btn-2 .stButton, .view-product-btn-3 .stButton, .view-product-btn-4 .stButton,
+        .view-product-btn-5 .stButton, .view-product-btn-6 .stButton, .view-product-btn-7 .stButton, .view-product-btn-8 .stButton {
+            width: 100%;
+        }
+
+        .view-product-btn-1 .stButton button, .view-product-btn-2 .stButton button, .view-product-btn-3 .stButton button, .view-product-btn-4 .stButton button,
+        .view-product-btn-5 .stButton button, .view-product-btn-6 .stButton button, .view-product-btn-7 .stButton button, .view-product-btn-8 .stButton button {
             width: 100%;
             padding: 0.75rem;
             background: transparent;
@@ -289,22 +364,43 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin-bottom: 0.75rem;
         }
 
-        .view-product-btn:hover {
+        .view-product-btn-1 .stButton button:hover, .view-product-btn-2 .stButton button:hover, .view-product-btn-3 .stButton button:hover, .view-product-btn-4 .stButton button:hover,
+        .view-product-btn-5 .stButton button:hover, .view-product-btn-6 .stButton button:hover, .view-product-btn-7 .stButton button:hover, .view-product-btn-8 .stButton button:hover {
             background: var(--primary);
             color: white;
             transform: translateY(-2px);
         }
 
-        .action-buttons {
+        .view-product-btn-1 .stButton button p, .view-product-btn-2 .stButton button p, .view-product-btn-3 .stButton button p, .view-product-btn-4 .stButton button p,
+        .view-product-btn-5 .stButton button p, .view-product-btn-6 .stButton button p, .view-product-btn-7 .stButton button p, .view-product-btn-8 .stButton button p {
+            margin: 0;
+        }
+
+        .action-buttons-1, .action-buttons-2, .action-buttons-3, .action-buttons-4,
+        .action-buttons-5, .action-buttons-6, .action-buttons-7, .action-buttons-8 {
             display: flex;
             gap: 0.5rem;
         }
 
-        .add-to-cart, .buy-now {
+        .add-to-cart-1, .add-to-cart-2, .add-to-cart-3, .add-to-cart-4,
+        .add-to-cart-5, .add-to-cart-6, .add-to-cart-7, .add-to-cart-8,
+        .buy-now-1, .buy-now-2, .buy-now-3, .buy-now-4,
+        .buy-now-5, .buy-now-6, .buy-now-7, .buy-now-8 {
             flex: 1;
+        }
+
+        .add-to-cart-1 .stButton, .add-to-cart-2 .stButton, .add-to-cart-3 .stButton, .add-to-cart-4 .stButton,
+        .add-to-cart-5 .stButton, .add-to-cart-6 .stButton, .add-to-cart-7 .stButton, .add-to-cart-8 .stButton,
+        .buy-now-1 .stButton, .buy-now-2 .stButton, .buy-now-3 .stButton, .buy-now-4 .stButton,
+        .buy-now-5 .stButton, .buy-now-6 .stButton, .buy-now-7 .stButton, .buy-now-8 .stButton {
+            width: 100%;
+        }
+
+        .add-to-cart-1 .stButton button, .add-to-cart-2 .stButton button, .add-to-cart-3 .stButton button, .add-to-cart-4 .stButton button,
+        .add-to-cart-5 .stButton button, .add-to-cart-6 .stButton button, .add-to-cart-7 .stButton button, .add-to-cart-8 .stButton button {
+            width: 100%;
             padding: 0.75rem;
             border: none;
             border-radius: calc(var(--radius) - 4px);
@@ -312,71 +408,41 @@
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 0.9rem;
-        }
-
-        .add-to-cart {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
         }
 
-        .add-to-cart:hover {
+        .add-to-cart-1 .stButton button:hover, .add-to-cart-2 .stButton button:hover, .add-to-cart-3 .stButton button:hover, .add-to-cart-4 .stButton button:hover,
+        .add-to-cart-5 .stButton button:hover, .add-to-cart-6 .stButton button:hover, .add-to-cart-7 .stButton button:hover, .add-to-cart-8 .stButton button:hover {
             background: linear-gradient(135deg, var(--primary-dark), #3730a3);
             transform: translateY(-2px);
         }
 
-        .buy-now {
+        .buy-now-1 .stButton button, .buy-now-2 .stButton button, .buy-now-3 .stButton button, .buy-now-4 .stButton button,
+        .buy-now-5 .stButton button, .buy-now-6 .stButton button, .buy-now-7 .stButton button, .buy-now-8 .stButton button {
+            width: 100%;
+            padding: 0.75rem;
+            border: none;
+            border-radius: calc(var(--radius) - 4px);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
             background: linear-gradient(135deg, var(--secondary), #d97706);
             color: white;
         }
 
-        .buy-now:hover {
+        .buy-now-1 .stButton button:hover, .buy-now-2 .stButton button:hover, .buy-now-3 .stButton button:hover, .buy-now-4 .stButton button:hover,
+        .buy-now-5 .stButton button:hover, .buy-now-6 .stButton button:hover, .buy-now-7 .stButton button:hover, .buy-now-8 .stButton button:hover {
             background: linear-gradient(135deg, #d97706, #b45309);
             transform: translateY(-2px);
         }
 
-        .quantity-controls {
-            display: none;
-            align-items: center;
-            background: var(--primary);
-            border-radius: calc(var(--radius) - 4px);
-            overflow: hidden;
-            flex: 1;
-            max-width: 100%; /* Prevents overflow beyond parent */
-        }
-
-        .quantity-controls.active {
-            display: flex;
-        }
-
-        .quantity-btn {
-            background: transparent;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 0.75rem 1rem;
-            transition: background 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 30px;
-        }
-
-        .quantity-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .quantity-display {
-            background: white;
-            color: var(--primary);
-            padding: 0.75rem 1rem;
-            font-weight: 600;
-            min-width: 50px;
-            text-align: center;
-            border: none;
-            outline: none;
-            min-width: 40px;
+        .add-to-cart-1 .stButton button p, .add-to-cart-2 .stButton button p, .add-to-cart-3 .stButton button p, .add-to-cart-4 .stButton button p,
+        .add-to-cart-5 .stButton button p, .add-to-cart-6 .stButton button p, .add-to-cart-7 .stButton button p, .add-to-cart-8 .stButton button p,
+        .buy-now-1 .stButton button p, .buy-now-2 .stButton button p, .buy-now-3 .stButton button p, .buy-now-4 .stButton button p,
+        .buy-now-5 .stButton button p, .buy-now-6 .stButton button p, .buy-now-7 .stButton button p, .buy-now-8 .stButton button p {
+            margin: 0;
         }
 
         .badge {
@@ -389,6 +455,7 @@
             border-radius: 20px;
             font-size: 0.8rem;
             font-weight: 600;
+            z-index: 2;
         }
 
         /* Featured Section */
@@ -442,7 +509,7 @@
                 gap: 0.75rem;
             }
             
-            .category-btn {
+            .categories .stButton button {
                 padding: 0.75rem 0.25rem;
                 font-size: 0.8rem;
             }
@@ -485,7 +552,7 @@
                 grid-template-columns: 1fr;
             }
             
-            .nav-btn {
+            .nav-buttons .stButton button {
                 padding: 0.5rem 1rem;
                 font-size: 0.9rem;
             }
@@ -503,324 +570,530 @@
             }
         }
 
-        .product-card {
+        .product-card-1, .product-card-2, .product-card-3, .product-card-4,
+        .product-card-5, .product-card-6, .product-card-7, .product-card-8 {
             animation: fadeInUp 0.6s ease forwards;
         }
 
-        .product-card:nth-child(1) { animation-delay: 0.1s; }
-        .product-card:nth-child(2) { animation-delay: 0.2s; }
-        .product-card:nth-child(3) { animation-delay: 0.3s; }
-        .product-card:nth-child(4) { animation-delay: 0.4s; }
-        .product-card:nth-child(5) { animation-delay: 0.5s; }
+        .product-card-1 { animation-delay: 0.1s; }
+        .product-card-2 { animation-delay: 0.2s; }
+        .product-card-3 { animation-delay: 0.3s; }
+        .product-card-4 { animation-delay: 0.4s; }
+        .product-card-5 { animation-delay: 0.5s; }
+        .product-card-6 { animation-delay: 0.6s; }
+        .product-card-7 { animation-delay: 0.7s; }
+        .product-card-8 { animation-delay: 0.8s; }
     </style>
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar">
+    <div class="navbar">
         <div class="nav-container">
-            <a href="#" class="logo">Looto</a>
+            <div class="logo">Looto</div>
             
             <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" class="search-bar" placeholder="Search for products, brands and more...">
+                <div class="search-bar">
+                    <div class="stTextInput">
+                        <input type="text" id="text_input_2" placeholder="Search for products, brands and more...">
+                    </div>
+                </div>
             </div>
             
             <div class="nav-buttons">
-                <a href="#" class="nav-btn">
-                    <i class="fas fa-shopping-cart"></i>
-                    My Cart
-                </a>
-                <a href="#" class="nav-btn">
-                    <i class="fas fa-box"></i>
-                    Orders
-                </a>
-                <a href="#" class="nav-btn login-btn">
-                    <i class="fas fa-user"></i>
-                    Login/Signup
-                </a>
+                <div class="nav-btn-1">
+                    <div class="stButton">
+                        <button>
+                            <span><i class="fas fa-shopping-cart"></i></span>
+                            <p>My Cart</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="nav-btn-2">
+                    <div class="stButton">
+                        <button>
+                            <span><i class="fas fa-box"></i></span>
+                            <p>Orders</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="nav-btn-3">
+                    <div class="stButton">
+                        <button>
+                            <span><i class="fas fa-user"></i></span>
+                            <p>Login/Signup</p>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+    </div>
 
     <!-- Category Bar -->
-    <section class="category-bar">
+    <div class="category-bar">
         <div class="category-container">
             <div class="categories">
-                <button class="category-btn">Electronics</button>
-                <button class="category-btn">Fashion</button>
-                <button class="category-btn">Home & Garden</button>
-                <button class="category-btn">Sports</button>
-                <button class="category-btn">Books</button>
-                <button class="category-btn">Beauty</button>
-                <button class="category-btn">Automotive</button>
-                <button class="category-btn">Toys</button>
-                <button class="category-btn">Health</button>
-                <button class="category-btn">Grocery</button>
+                <div class="category-btn-1">
+                    <div class="stButton">
+                        <button>
+                            <p>Electronics</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="category-btn-2">
+                    <div class="stButton">
+                        <button>
+                            <p>Fashion</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="category-btn-3">
+                    <div class="stButton">
+                        <button>
+                            <p>Home & Garden</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="category-btn-4">
+                    <div class="stButton">
+                        <button>
+                            <p>Sports</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="category-btn-5">
+                    <div class="stButton">
+                        <button>
+                            <p>Books</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="category-btn-6">
+                    <div class="stButton">
+                        <button>
+                            <p>Beauty</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="category-btn-7">
+                    <div class="stButton">
+                        <button>
+                            <p>Automotive</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="category-btn-8">
+                    <div class="stButton">
+                        <button>
+                            <p>Toys</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="category-btn-9">
+                    <div class="stButton">
+                        <button>
+                            <p>Health</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="category-btn-10">
+                    <div class="stButton">
+                        <button>
+                            <p>Grocery</p>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <!-- Featured Section -->
-    <section class="featured-section">
+    <div class="featured-section">
         <div class="featured-content">
             <h2 class="featured-title">Big Sale Today!</h2>
             <p class="featured-subtitle">Up to 70% off on selected items. Limited time offer!</p>
             <button class="featured-btn">Shop Now</button>
         </div>
-    </section>
+    </div>
 
     <!-- Products Section -->
-    <section class="products-section">
-        <h2 class="section-title">Featured Products</h2>
+    <div class="products-section">
+        <h2 class="section-title">Products</h2>
         
         <div class="products-grid">
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop" alt="Premium Laptop">
+            <div class="product-card-1">
+                <div class="product-image-details-1">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop" alt="Product Image 1">
+                    </div>
+                    <div class="badge">Hot</div>
                 </div>
-                <div class="badge">Hot</div>
-                <div class="product-info">
-                    <h3 class="product-title">Premium Laptop</h3>
-                    <p class="product-description">High-performance laptop with latest specs for work and gaming</p>
-                    <div class="product-price">$899.99</div>
-                    <button class="view-product-btn">View Product</button>
-                    <div class="action-buttons">
-                        <button class="add-to-cart">Add to Cart</button>
-                        <div class="quantity-controls">
-                            <button class="quantity-btn minus-btn">−</button>
-                            <input type="text" class="quantity-display" value="1" readonly>
-                            <button class="quantity-btn plus-btn">+</button>
+                <div class="product-info-1">
+                    <div class="product-details-1">
+                        <h3 class="product-title">Premium Laptop</h3>
+                        <p class="product-description">High-performance laptop with latest specs for work and gaming</p>
+                        <div class="product-price">$899.99</div>
+                    </div>
+                    <div class="view-product-btn-1">
+                        <div class="stButton">
+                            <button>
+                                <p>View Product</p>
+                            </button>
                         </div>
-                        <button class="buy-now">Buy Now</button>
+                    </div>
+                    <div class="action-buttons-1">
+                        <div class="add-to-cart-1">
+                            <div class="stButton">
+                                <button>
+                                    <p>Add to Cart</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="buy-now-1">
+                            <div class="stButton">
+                                <button>
+                                    <p>Buy Now</p>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop" alt="Wireless Headphones">
+            <div class="product-card-2">
+                <div class="product-image-details-2">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=300&fit=crop" alt="Product Image 2">
+                    </div>
+                    <div class="badge">Sale</div>
                 </div>
-                <div class="badge">Sale</div>
-                <div class="product-info">
-                    <h3 class="product-title">Wireless Headphones</h3>
-                    <p class="product-description">Noise-cancelling wireless headphones with premium sound quality</p>
-                    <div class="product-price">$199.99</div>
-                    <button class="view-product-btn">View Product</button>
-                    <div class="action-buttons">
-                        <button class="add-to-cart">Add to Cart</button>
-                        <div class="quantity-controls">
-                            <button class="quantity-btn minus-btn">−</button>
-                            <input type="text" class="quantity-display" value="1" readonly>
-                            <button class="quantity-btn plus-btn">+</button>
+                <div class="product-info-2">
+                    <div class="product-details-2">
+                        <h3 class="product-title">Wireless Headphones</h3>
+                        <p class="product-description">Noise-cancelling wireless headphones with premium sound quality</p>
+                        <div class="product-price">$199.99</div>
+                    </div>
+                    <div class="view-product-btn-2">
+                        <div class="stButton">
+                            <button>
+                                <p>View Product</p>
+                            </button>
                         </div>
-                        <button class="buy-now">Buy Now</button>
+                    </div>
+                    <div class="action-buttons-2">
+                        <div class="add-to-cart-2">
+                            <div class="stButton">
+                                <button>
+                                    <p>Add to Cart</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="buy-now-2">
+                            <div class="stButton">
+                                <button>
+                                    <p>Buy Now</p>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop" alt="Designer T-Shirt">
+            <div class="product-card-3">
+                <div class="product-image-details-3">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&h=300&fit=crop" alt="Product Image 3">
+                    </div>
+                    <div class="badge">Now</div>
                 </div>
-                <div class="product-info">
-                    <h3 class="product-title">Designer T-Shirt</h3>
-                    <p class="product-description">Premium cotton t-shirt with modern design and comfortable fit</p>
-                    <div class="product-price">$29.99</div>
-                    <button class="view-product-btn">View Product</button>
-                    <div class="action-buttons">
-                        <button class="add-to-cart">Add to Cart</button>
-                        <div class="quantity-controls">
-                            <button class="quantity-btn minus-btn">−</button>
-                            <input type="text" class="quantity-display" value="1" readonly>
-                            <button class="quantity-btn plus-btn">+</button>
+                <div class="product-info-3">
+                    <div class="product-details-3">
+                        <h3 class="product-title">Designer T-Shirt</h3>
+                        <p class="product-description">Premium cotton t-shirt with modern design and comfortable fit</p>
+                        <div class="product-price">$29.99</div>
+                    </div>
+                    <div class="view-product-btn-3">
+                        <div class="stButton">
+                            <button>
+                                <p>View Product</p>
+                            </button>
                         </div>
-                        <button class="buy-now">Buy Now</button>
+                    </div>
+                    <div class="action-buttons-3">
+                        <div class="add-to-cart-3">
+                            <div class="stButton">
+                                <button>
+                                    <p>Add to Cart</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="buy-now-3">
+                            <div class="stButton">
+                                <button>
+                                    <p>Buy Now</p>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop" alt="Smart Watch">
+            <div class="product-card-4">
+                <div class="product-image-details-4">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=300&fit=crop" alt="Product Image 4">
+                    </div>
+                    <div class="badge">New</div>
                 </div>
-                <div class="badge">New</div>
-                <div class="product-info">
-                    <h3 class="product-title">Smart Watch</h3>
-                    <p class="product-description">Feature-rich smartwatch with health tracking and notifications</p>
-                    <div class="product-price">$299.99</div>
-                    <button class="view-product-btn">View Product</button>
-                    <div class="action-buttons">
-                        <button class="add-to-cart">Add to Cart</button>
-                        <div class="quantity-controls">
-                            <button class="quantity-btn minus-btn">−</button>
-                            <input type="text" class="quantity-display" value="1" readonly>
-                            <button class="quantity-btn plus-btn">+</button>
+                <div class="product-info-4">
+                    <div class="product-details-4">
+                        <h3 class="product-title">Smart Watch</h3>
+                        <p class="product-description">Feature-rich smartwatch with health tracking and notifications</p>
+                        <div class="product-price">$299.99</div>
+                    </div>
+                    <div class="view-product-btn-4">
+                        <div class="stButton">
+                            <button>
+                                <p>View Product</p>
+                            </button>
                         </div>
-                        <button class="buy-now">Buy Now</button>
+                    </div>
+                    <div class="action-buttons-4">
+                        <div class="add-to-cart-4">
+                            <div class="stButton">
+                                <button>
+                                    <p>Add to Cart</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="buy-now-4">
+                            <div class="stButton">
+                                <button>
+                                    <p>Buy Now</p>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=400&h=300&fit=crop" alt="DSLR Camera">
+            <div class="product-card-5">
+                <div class="product-image-details-5">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?w=400&h=300&fit=crop" alt="Product Image 5">
+                    </div>
+                    <div class="badge">Now</div>
                 </div>
-                <div class="product-info">
-                    <h3 class="product-title">DSLR Camera</h3>
-                    <p class="product-description">Professional camera with high-resolution sensor and fast autofocus</p>
-                    <div class="product-price">$1,299.99</div>
-                    <button class="view-product-btn">View Product</button>
-                    <div class="action-buttons">
-                        <button class="add-to-cart">Add to Cart</button>
-                        <div class="quantity-controls">
-                            <button class="quantity-btn minus-btn">−</button>
-                            <input type="text" class="quantity-display" value="1" readonly>
-                            <button class="quantity-btn plus-btn">+</button>
+                <div class="product-info-5">
+                    <div class="product-details-5">
+                        <h3 class="product-title">DSLR Camera</h3>
+                        <p class="product-description">Professional camera with high-resolution sensor and fast autofocus</p>
+                        <div class="product-price">$1,299.99</div>
+                    </div>
+                    <div class="view-product-btn-5">
+                        <div class="stButton">
+                            <button>
+                                <p>View Product</p>
+                            </button>
                         </div>
-                        <button class="buy-now">Buy Now</button>
+                    </div>
+                    <div class="action-buttons-5">
+                        <div class="add-to-cart-5">
+                            <div class="stButton">
+                                <button>
+                                    <p>Add to Cart</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="buy-now-5">
+                            <div class="stButton">
+                                <button>
+                                    <p>Buy Now</p>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=400&h=300&fit=crop" alt="Gaming Controller">
+            <div class="product-card-6">
+                <div class="product-image-details-6">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=400&h=300&fit=crop" alt="Product Image 6">
+                    </div>
+                    <div class="badge">Hot</div>
                 </div>
-                <div class="badge">Hot</div>
-                <div class="product-info">
-                    <h3 class="product-title">Gaming Controller</h3>
-                    <p class="product-description">Wireless gaming controller with haptic feedback and long battery life</p>
-                    <div class="product-price">$79.99</div>
-                    <button class="view-product-btn">View Product</button>
-                    <div class="action-buttons">
-                        <button class="add-to-cart">Add to Cart</button>
-                        <div class="quantity-controls">
-                            <button class="quantity-btn minus-btn">−</button>
-                            <input type="text" class="quantity-display" value="1" readonly>
-                            <button class="quantity-btn plus-btn">+</button>
+                <div class="product-info-6">
+                    <div class="product-details-6">
+                        <h3 class="product-title">Gaming Controller</h3>
+                        <p class="product-description">Wireless gaming controller with haptic feedback and long battery life</p>
+                        <div class="product-price">$79.99</div>
+                    </div>
+                    <div class="view-product-btn-6">
+                        <div class="stButton">
+                            <button>
+                                <p>View Product</p>
+                            </button>
                         </div>
-                        <button class="buy-now">Buy Now</button>
+                    </div>
+                    <div class="action-buttons-6">
+                        <div class="add-to-cart-6">
+                            <div class="stButton">
+                                <button>
+                                    <p>Add to Cart</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="buy-now-6">
+                            <div class="stButton">
+                                <button>
+                                    <p>Buy Now</p>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=300&fit=crop" alt="Best Seller Book">
+            <div class="product-card-7">
+                <div class="product-image-details-7">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=300&fit=crop" alt="Product Image 7">
+                    </div>
+                    <div class="badge">Now</div>
                 </div>
-                <div class="product-info">
-                    <h3 class="product-title">Best Seller Book</h3>
-                    <p class="product-description">Captivating novel that topped the charts and won multiple awards</p>
-                    <div class="product-price">$19.99</div>
-                    <button class="view-product-btn">View Product</button>
-                    <div class="action-buttons">
-                        <button class="add-to-cart">Add to Cart</button>
-                        <div class="quantity-controls">
-                            <button class="quantity-btn minus-btn">−</button>
-                            <input type="text" class="quantity-display" value="1" readonly>
-                            <button class="quantity-btn plus-btn">+</button>
+                <div class="product-info-7">
+                    <div class="product-details-7">
+                        <h3 class="product-title">Best Seller Book</h3>
+                        <p class="product-description">Captivating novel that topped the charts and won multiple awards</p>
+                        <div class="product-price">$19.99</div>
+                    </div>
+                    <div class="view-product-btn-7">
+                        <div class="stButton">
+                            <button>
+                                <p>View Product</p>
+                            </button>
                         </div>
-                        <button class="buy-now">Buy Now</button>
+                    </div>
+                    <div class="action-buttons-7">
+                        <div class="add-to-cart-7">
+                            <div class="stButton">
+                                <button>
+                                    <p>Add to Cart</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="buy-now-7">
+                            <div class="stButton">
+                                <button>
+                                    <p>Buy Now</p>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" alt="Fitness Equipment">
+            <div class="product-card-8">
+                <div class="product-image-details-8">
+                    <div class="product-image">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop" alt="Product Image 8">
+                    </div>
+                    <div class="badge">Sale</div>
                 </div>
-                <div class="badge">Sale</div>
-                <div class="product-info">
-                    <h3 class="product-title">Fitness Equipment</h3>
-                    <p class="product-description">Complete home workout set with adjustable weights and accessories</p>
-                    <div class="product-price">$149.99</div>
-                    <button class="view-product-btn">View Product</button>
-                    <div class="action-buttons">
-                        <button class="add-to-cart">Add to Cart</button>
-                        <div class="quantity-controls">
-                            <button class="quantity-btn minus-btn">−</button>
-                            <input type="text" class="quantity-display" value="1" readonly>
-                            <button class="quantity-btn plus-btn">+</button>
+                <div class="product-info-8">
+                    <div class="product-details-8">
+                        <h3 class="product-title">Fitness Equipment</h3>
+                        <p class="product-description">Complete home workout set with adjustable weights and accessories</p>
+                        <div class="product-price">$149.99</div>
+                    </div>
+                    <div class="view-product-btn-8">
+                        <div class="stButton">
+                            <button>
+                                <p>View Product</p>
+                            </button>
                         </div>
-                        <button class="buy-now">Buy Now</button>
+                    </div>
+                    <div class="action-buttons-8">
+                        <div class="add-to-cart-8">
+                            <div class="stButton">
+                                <button>
+                                    <p>Add to Cart</p>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="buy-now-8">
+                            <div class="stButton">
+                                <button>
+                                    <p>Buy Now</p>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 
     <script>
         // Enhanced interactive functionality
-        document.querySelectorAll('.add-to-cart').forEach(button => {
+        document.querySelectorAll('[class*="add-to-cart-"] .stButton button').forEach(button => {
             button.addEventListener('click', function() {
-                const actionButtons = this.parentElement;
-                const addToCartBtn = this;
-                const quantityControls = actionButtons.querySelector('.quantity-controls');
-                
-                // Hide add to cart button and show quantity controls
-                addToCartBtn.style.display = 'none';
-                quantityControls.classList.add('active');
-            });
-        });
-
-        // Handle quantity controls
-        document.querySelectorAll('.quantity-controls').forEach(controls => {
-            const minusBtn = controls.querySelector('.minus-btn');
-            const plusBtn = controls.querySelector('.plus-btn');
-            const quantityDisplay = controls.querySelector('.quantity-display');
-            
-            plusBtn.addEventListener('click', function() {
-                let currentValue = parseInt(quantityDisplay.value);
-                quantityDisplay.value = currentValue + 1;
-            });
-            
-            minusBtn.addEventListener('click', function() {
-                let currentValue = parseInt(quantityDisplay.value);
-                if (currentValue > 1) {
-                    quantityDisplay.value = currentValue - 1;
-                } else {
-                    // If quantity becomes 0, hide quantity controls and show add to cart again
-                    controls.classList.remove('active');
-                    const addToCartBtn = controls.parentElement.querySelector('.add-to-cart');
-                    addToCartBtn.style.display = 'block';
-                    quantityDisplay.value = 1; // Reset to 1
-                }
+                const productTitle = this.closest('[class*="product-card-"]').querySelector('.product-title').textContent;
+                alert(`Added to cart: ${productTitle}`);
             });
         });
 
         // Buy Now functionality
-        document.querySelectorAll('.buy-now').forEach(button => {
+        document.querySelectorAll('[class*="buy-now-"] .stButton button').forEach(button => {
             button.addEventListener('click', function() {
-                const productTitle = this.closest('.product-card').querySelector('.product-title').textContent;
+                const productTitle = this.closest('[class*="product-card-"]').querySelector('.product-title').textContent;
                 alert(`Proceeding to checkout for: ${productTitle}`);
             });
         });
 
         // View Product functionality
-        document.querySelectorAll('.view-product-btn').forEach(button => {
+        document.querySelectorAll('[class*="view-product-btn-"] .stButton button').forEach(button => {
             button.addEventListener('click', function() {
-                const productTitle = this.closest('.product-card').querySelector('.product-title').textContent;
+                const productTitle = this.closest('[class*="product-card-"]').querySelector('.product-title').textContent;
                 alert(`Viewing details for: ${productTitle}`);
             });
         });
 
         // Search functionality
-        document.querySelector('.search-bar').addEventListener('keypress', function(e) {
+        document.querySelector('#text_input_2').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 alert('Search functionality would be implemented here!');
             }
         });
 
         // Category button interactions
-        document.querySelectorAll('.category-btn').forEach(btn => {
+        document.querySelectorAll('[class*="category-btn-"] .stButton button').forEach(btn => {
             btn.addEventListener('click', function() {
-                document.querySelectorAll('.category-btn').forEach(b => {
+                // Reset all category buttons
+                document.querySelectorAll('[class*="category-btn-"] .stButton button').forEach(b => {
                     b.style.background = '';
                     b.style.color = '';
                 });
+                // Highlight clicked button
                 this.style.background = 'var(--primary)';
                 this.style.color = 'white';
+                
+                const categoryName = this.querySelector('p').textContent;
+                alert(`Selected category: ${categoryName}`);
             });
+        });
+
+        // Navigation button functionality
+        document.querySelectorAll('.nav-buttons .stButton button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const buttonText = this.querySelector('p').textContent;
+                alert(`Clicked: ${buttonText}`);
+            });
+        });
+
+        // Featured section button
+        document.querySelector('.featured-btn').addEventListener('click', function() {
+            alert('Opening featured sale items!');
         });
     </script>
 </body>
