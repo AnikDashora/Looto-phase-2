@@ -43,6 +43,9 @@ class NavigationState:
             self.page_index -= 1
     
     def to_home_page(self):
-        self.pages.append(1)
-        self.page_index += 1 
+        if(self.pages[self.page_index - 1] == 6 or self.pages[self.page_index - 1] == 7):
+            self.pages[-1] = 1
+        else:
+            self.pages.append(1)
+            self.page_index += 1 
 

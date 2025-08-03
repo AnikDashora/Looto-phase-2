@@ -1,5 +1,9 @@
 import streamlit as st
 
+def check_user_exist():
+    if(not(st.session_state["current_user"].user_exist)):
+        st.session_state["navigation"].to_signup_page
+
 remove_header_footer = """
     #MainMenu {visibility: hidden;}
     header {visibility: hidden;}
@@ -746,12 +750,14 @@ def home_page():
                             icon=":material/package_2:"
                         )
                     with user_col:
+                        label = ((st.session_state["current_user"].name).split(" "))[0] if(st.session_state["current_user"].user_exist) else "Login/Signup"
                         st.button(
-                            label="Login/Signup",
+                            label=label,
                             key = "nav-btn-3",
                             type="secondary",
                             icon=":material/person:",
-                            on_click=st.session_state["navigation"].to_signup_page
+                            on_click=check_user_exist,
+                            help=label
                         )
 
     with st.container(key = "category-bar"):

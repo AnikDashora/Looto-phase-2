@@ -5,7 +5,8 @@ import sys
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
-from services.auth_service import ValidateUser
+from services.auth_service import ValidateUser,VerifyUser,UserServies
+from models.user_model import User
 
 remove_header_footer = """
     #MainMenu {visibility: hidden;}
@@ -894,14 +895,33 @@ def signin_page():
                     placeholder="Enter your password",
                     type="password"
                 )
-                password_flag = ValidateUser.validate_password(password)
             
             # Signin button with validation
-            st.button(
+            signin_button = st.button(
                 label="Sign In",
                 key="signin-button",
                 type="secondary"
             )
+            if(signin_button):
+                if(email and email_flag and VerifyUser.if_user_exists(email)):
+                    if(password):
+                        if(VerifyUser.verify_user(email,password)):
+                            user_data = UserServies.user_deserialization(email)
+                            st.session_state["current_user"].set_user_data(
+                                user_id=user_data["user_id"],
+                                name=user_data["name"],
+                                email=user_data["email"], 
+                                password=user_data["password"]
+                            )
+                            st.session_state["current_user"].set_user_exist()
+                            st.session_state["navigation"].to_home_page()
+                            st.rerun()
+                        else:
+                            st.error("Invalid Email or Password")
+                    else:
+                        st.error("Invalid Entries")
+                else:
+                    st.error("User doesn't Exist")
         
         # Divider
         st.markdown(

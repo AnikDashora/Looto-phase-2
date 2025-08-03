@@ -6,6 +6,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
 from session_state.session_manager import NavigationState
+from models.user_model import User
 from screens.Landing_Page import landing_page
 from auth.signup import signup_page
 from auth.login import signin_page
@@ -13,6 +14,8 @@ from screens.Home import home_page
 
 if("navigation" not in st.session_state):
     st.session_state["navigation"] = NavigationState()
+if("current_user" not in st.session_state):
+    st.session_state["current_user"] = User()
 
 if(st.session_state["navigation"].get_current_page() == 0):
     landing_page()

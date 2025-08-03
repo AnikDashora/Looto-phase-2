@@ -5,7 +5,7 @@ import sys
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.append(parent_dir)
 
-from services.auth_service import ValidateUser
+from services.auth_service import ValidateUser,VerifyUser,UserServies
 
 remove_header_footer = """
     #MainMenu {visibility: hidden;}
@@ -948,12 +948,28 @@ def signup_page():
                     )
             
             # Signup button with validation
-            st.button(
+            signup_btn = st.button(
                 label="Create Account",
                 key="signup-button",
                 type="secondary"
             )
-        
+
+            if(signup_btn):
+                if((name_flag and email_flag and password_flag) and (name and email and password)):
+                    if(not(VerifyUser.if_user_exists(email))):
+                        st.session_state["current_user"].set_user_data(#saving user state
+                            user_id=UserServies.generate_user_id(),
+                            name=name,
+                            email=email,
+                            password=UserServies.encrypt_password(email,password)
+                        )
+                        UserServies.user_serialization(st.session_state["current_user"])#saving user in database
+                        st.session_state["navigation"].to_home_page()
+                        st.rerun()
+                    else:
+                        st.error("User Already Exist")
+                else:
+                    st.error("Invalid Entries")
         # Divider
         st.markdown(
             """
