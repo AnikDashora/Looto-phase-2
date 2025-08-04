@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone 15 Pro Max - Looto</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #f59e0b;
+            --secondary-light: #fbbf24;
+            --accent: #06d6a0;
+            --accent-light: #34d399;
+            --background: #fefefe;
+            --card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --text-muted: #9ca3af;
+            --border: #e5e7eb;
+            --border-light: #f3f4f6;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            --radius: 16px;
+            --radius-sm: 8px;
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--primary-light));
+            --gradient-secondary: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+            --gradient-accent: linear-gradient(135deg, var(--accent), var(--accent-light));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #fafafa 0%, #f8fafc 100%);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .navbar:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .cart-icon, .user-icon {
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 4px;
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+        }
+
+        .cart-icon:hover, .user-icon:hover {
+            transform: scale(1.1);
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+        }
+
+        /* Back Button Section */
+        .back-button-section {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.5rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .back-button-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .back-button .stButton button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+            background: transparent;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .back-button .stButton button:hover {
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+            border-color: var(--primary);
+            transform: translateX(-2px);
+        }
+
+        .back-button .stButton button span {
+            font-size: 1.4rem;
+            transition: transform 0.3s ease;
+        }
+
+        .back-button .stButton button:hover span {
+            transform: translateX(-2px);
+        }
+
+        .back-button .stButton button p {
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* Product Container */
+        .product-container {
+            display: flex;
+            gap: 4rem;
+            padding: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: start;
+            background: var(--card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+        }
+
+        .product-image-details {
+            flex: 1;
+            padding: 0;
+        }
+
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: var(--radius);
+            transition: transform 0.5s ease;
+            box-shadow: var(--shadow-xl);
+        }
+
+        .product-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .product-details {
+            flex: 1.2;
+            padding: 0;
+        }
+
+        .product-name h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Rating */
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(251, 191, 36, 0.05));
+            border-radius: var(--radius);
+            border: 1px solid rgba(245, 158, 11, 0.1);
+        }
+
+        .stars {
+            display: flex;
+            gap: 4px;
+        }
+
+        .star {
+            color: var(--secondary);
+            font-size: 1.4rem;
+            filter: drop-shadow(0 2px 4px rgba(245, 158, 11, 0.3));
+            transition: transform 0.2s ease;
+        }
+
+        .star:hover {
+            transform: scale(1.1);
+        }
+
+        .star.empty {
+            color: var(--border);
+        }
+
+        .rating-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Price Section */
+        .price-section {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(129, 140, 248, 0.05));
+            border-radius: var(--radius);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        .current-price span {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .original-price span {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+            font-weight: 500;
+        }
+
+        .discount-badge span {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .tax-info {
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .tax-info span {
+            color: var(--accent);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.95rem;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .feature:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature.delivery {
+            background: linear-gradient(135deg, rgba(6, 214, 160, 0.1), rgba(52, 211, 153, 0.05));
+            color: var(--accent);
+            border-color: rgba(6, 214, 160, 0.2);
+        }
+
+        .feature.warranty {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(129, 140, 248, 0.05));
+            color: var(--primary);
+            border-color: rgba(99, 102, 241, 0.2);
+        }
+
+        .feature.returns {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(167, 139, 250, 0.05));
+            color: #8b5cf6;
+            border-color: rgba(139, 92, 246, 0.2);
+        }
+
+        .feature-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-icon.delivery {
+            background: var(--gradient-accent);
+            color: white;
+        }
+
+        .feature-icon.warranty {
+            background: var(--gradient-primary);
+            color: white;
+        }
+
+        .feature-icon.returns {
+            background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+            color: white;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .add-to-cart, .buy-now {
+            flex: 1;
+        }
+
+        .stButton {
+            width: 100%;
+        }
+
+        .stButton button {
+            width: 100%;
+            padding: 1.25rem 2rem;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .add-to-cart .stButton button {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+        }
+
+        .add-to-cart .stButton button:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        .buy-now .stButton button {
+            background: transparent;
+            color: var(--secondary);
+            border: 2px solid var(--secondary);
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+        }
+
+        .buy-now .stButton button:hover {
+            background: var(--gradient-secondary);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(245, 158, 11, 0.4);
+        }
+
+        .stButton button p {
+            margin: 0;
+        }
+
+        /* Description */
+        .description {
+            margin-top: 2rem;
+            padding: 2rem 0 0 0;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .description h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-weight: 700;
+            position: relative;
+        }
+
+        .description h3::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+
+        .description p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.95rem;
+            font-weight: 400;
+        }
+
+        /* Success Message Styles */
+        .success-message {
+            background: linear-gradient(135deg, rgba(6, 214, 160, 0.15), rgba(6, 214, 160, 0.05));
+            color: var(--accent);
+            padding: 1.25rem 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 1.5rem;
+            display: none;
+            border: 1px solid rgba(6, 214, 160, 0.3);
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(6, 214, 160, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .success-message.show {
+            display: block;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .product-container {
+                gap: 2rem;
+                padding: 2rem;
+            }
+
+            .product-name h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .product-container {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+
+            .product-name h1 {
+                font-size: 2.2rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .price-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1.5rem;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .back-button-section {
+                padding: 1rem;
+            }
+        }
+
+        /* Additional Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .product-image-details {
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .product-details {
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--border-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Looto</a>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Categories</a></li>
+                <li><a href="#">Deals</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <svg class="cart-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z"/>
+                </svg>
+                <svg class="user-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 12C14.21 12 16 10.21 16 8C16 5.79 14.21 4 12 4C9.79 4 8 5.79 8 8C8 10.21 9.79 12 12 12ZM12 14C9.33 14 4 15.34 4 18V20H20V18C20 15.34 14.67 14 12 14Z"/>
+                </svg>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Back Button Section -->
+    <div class="back-button-section">
+        <div class="back-button-container">
+            <div class="back-button">
+                <div class="stButton">
+                    <button onclick="goBack()">
+                        <span>←</span>
+                        <p>Back</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="st.Empty"></div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="successMessage" class="success-message"></div>
+
+    <!-- Product Container -->
+    <div class="product-container">
+        <!-- Product Image Details -->
+        <div class="product-image-details">
+            <div class="product-image">
+                <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="iPhone 15 Pro Max">
+            </div>
+        </div>
+
+        <!-- Product Details -->
+        <div class="product-details">
+            <div class="product-name">
+                <h1>iPhone 15 Pro Max</h1>
+            </div>
+
+            <!-- Rating -->
+            <div class="rating">
+                <div class="stars">
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                    <span class="star">★</span>
+                </div>
+                <span class="rating-text">4.8/5 (2,547 reviews)</span>
+            </div>
+            
+            <!-- Price Section -->
+            <div class="price-section">
+                <div class="current-price">
+                    <span>₹134,999</span>
+                </div>
+                <div class="original-price">
+                    <span>₹159,999</span>
+                </div>
+                <div class="discount-badge">
+                    <span>16% OFF</span>
+                </div>
+                <div class="tax-info">
+                    <span>Inclusive of all taxes</span>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="features">
+                <div class="feature delivery">
+                    <div class="feature-icon delivery">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 7C19 6.45 18.55 6 18 6H14L12 4H8C7.45 4 7 4.45 7 5V7H5C4.45 7 4 7.45 4 8V17C4 18.1 4.9 19 6 19H18C19.1 19 20 18.1 20 17V8C20 7.45 19.55 7 19 7ZM18 17H6V9H18V17ZM8 11H16V13H8V11Z"/>
+                        </svg>
+                    </div>
+                    <span>Fast Delivery</span>
+                </div>
+                <div class="feature warranty">
+                    <div class="feature-icon warranty">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1ZM19,11C19,15.52 16.02,19.69 12,20.9C7.98,19.69 5,15.52 5,11V6.3L12,3.19L19,6.3V11ZM7,10L12,15L17,10L15.59,8.59L12,12.17L8.41,8.59L7,10Z"/>
+                        </svg>
+                    </div>
+                    <span>2-Year Warranty</span>
+                </div>
+                <div class="feature returns">
+                    <div class="feature-icon returns">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2ZM18,11H13L14.5,9.5C14.5,9.5 14.5,9.5 14.5,9.5L13.08,8.08L9.16,12L13.08,15.92L14.5,14.5L13,13H18V11Z"/>
+                        </svg>
+                    </div>
+                    <span>Easy Returns</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <div class="add-to-cart">
+                    <div class="stButton">
+                        <button onclick="addToCart()">
+                            <p>Add to Cart</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="buy-now">
+                    <div class="stButton">
+                        <button onclick="buyNow()">
+                            <p>Buy Now</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="description">
+                <h3>Product Description</h3>
+                <p>The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip built on a 3-nanometer process, this device delivers unprecedented performance and efficiency. The advanced camera system includes a 48MP main camera with 5x optical zoom telephoto lens, enabling you to capture stunning photos and videos from any distance. The aerospace-grade titanium design not only looks premium but also provides exceptional durability while being surprisingly lightweight. With its Action Button, USB-C connectivity, and all-day battery life, the iPhone 15 Pro Max redefines what's possible in a smartphone.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let quantity = 1;
+        const maxQuantity = 10;
+
+        function showMessage(message, type = 'success') {
+            const messageEl = document.getElementById('successMessage');
+            if (messageEl) {
+                messageEl.textContent = message;
+                messageEl.className = `success-message show ${type}`;
+                
+                setTimeout(() => {
+                    messageEl.classList.remove('show');
+                }, 4000);
+            }
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        function addToCart() {
+            showMessage(`✨ Added iPhone 15 Pro Max to your cart!`);
+        }
+
+        function buyNow() {
+            showMessage(`🚀 Proceeding to checkout with iPhone 15 Pro Max!`);
+        }
+
+        // Add some interactive hover effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover sound effect (optional)
+            const buttons = document.querySelectorAll('button, .feature');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', function() {
+                    this.style.transform = this.style.transform || '';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

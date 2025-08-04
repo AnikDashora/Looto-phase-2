@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders - Looto</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #f59e0b;
+            --accent: #06d6a0;
+            --background: #fefefe;
+            --card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b7280;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --radius: 12px;
+            --success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            color: var(--card);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo svg {
+            margin-right: 0.5rem;
+            width: 24px;
+            height: 24px;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 400px;
+            margin: 0 2rem;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.2);
+            color: var(--card);
+            placeholder-color: rgba(255,255,255,0.7);
+            backdrop-filter: blur(10px);
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            color: var(--card);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: rgba(255,255,255,0.95);
+            margin-top: 2rem;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-button:hover {
+            color: var(--primary-dark);
+        }
+
+        .back-button::before {
+            content: "←";
+            margin-right: 0.5rem;
+        }
+
+        .page-title {
+            color: var(--primary);
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .order-card {
+            background: var(--card);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .order-id {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--text-primary);
+        }
+
+        .order-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .order-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            background: var(--success);
+            color: var(--card);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .tracking-info {
+            display: flex;
+            align-items: center;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .tracking-info::before {
+            content: "📦";
+            margin-right: 0.5rem;
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+            background: var(--background);
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius);
+            background: var(--background);
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: calc(var(--radius) - 1px);
+        }
+
+        .product-details {
+            flex: 1;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .product-quantity {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .product-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .view-button {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: calc(var(--radius) - 4px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .view-button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .view-button:hover {
+            background: var(--primary);
+            color: var(--card);
+            transform: translateY(-2px);
+        }
+
+        .order-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .help-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: var(--card);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+        }
+
+        .help-button:hover {
+            transform: translateY(-5px);
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            Looto
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Search orders...">
+        </div>
+        <div class="nav-buttons">
+            <button class="nav-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z"/>
+                </svg>
+                My Cart
+            </button>
+            <button class="nav-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                Home
+            </button>
+            <button class="nav-btn">Login</button>
+            <button class="nav-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H6C4.9 1 4 1.9 4 3V21C4 22.1 4.9 23 6 23H18C19.1 23 20 22.1 20 21V9H21ZM18 21H6V3H14V9H18V21Z"/>
+                </svg>
+                Sign Up
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="order-header">
+            <button class="back-button">
+                Back to Shopping
+            </button>
+            <div class="order-item-section">
+                <h1 class="page-title">My Orders</h1>
+                <p class="page-subtitle">Track and manage your order history</p>
+            </div>
+        </div>
+        <div class="order-card">
+            <div class="order-header">
+                <div>
+                    <div class="order-id">Order ORD-2024-001</div>
+                    <div class="order-date">Placed on 15/01/2024</div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="order-price">₹212,199</div>
+                    <div class="status-badge">✓ Delivered</div>
+                </div>
+            </div>
+
+            <div class="tracking-info">
+                Tracking: TRK12345789
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=80&h=80&fit=crop&crop=center" alt="iPhone 15 Pro Max">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">iPhone 15 Pro Max</div>
+                    <div class="product-quantity">Qty: 1</div>
+                    <div class="product-price">₹134,999</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=80&h=80&fit=crop&crop=center" alt="AirPods Pro">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">AirPods Pro (2nd Generation)</div>
+                    <div class="product-quantity">Qty: 1</div>
+                    <div class="product-price">₹24,900</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=80&h=80&fit=crop&crop=center" alt="Apple Watch">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">Apple Watch Series 9</div>
+                    <div class="product-quantity">Qty: 1</div>
+                    <div class="product-price">₹41,900</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=80&h=80&fit=crop&crop=center" alt="MagSafe Charger">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">MagSafe Charger</div>
+                    <div class="product-quantity">Qty: 2</div>
+                    <div class="product-price">₹4,500</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=80&h=80&fit=crop&crop=center" alt="iPhone Case">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">iPhone 15 Pro Case - Leather</div>
+                    <div class="product-quantity">Qty: 1</div>
+                    <div class="product-price">₹5,900</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="order-summary">
+                <div>Items: 6 • Total: ₹212,199</div>
+            </div>
+        </div>
+
+        <div class="order-card">
+            <div class="order-header">
+                <div>
+                    <div class="order-id">Order ORD-2024-001</div>
+                    <div class="order-date">Placed on 15/01/2024</div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="order-price">₹212,199</div>
+                    <div class="status-badge">✓ Delivered</div>
+                </div>
+            </div>
+
+            <div class="tracking-info">
+                Tracking: TRK12345789
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=80&h=80&fit=crop&crop=center" alt="iPhone 15 Pro Max">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">iPhone 15 Pro Max</div>
+                    <div class="product-quantity">Qty: 1</div>
+                    <div class="product-price">₹134,999</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=80&h=80&fit=crop&crop=center" alt="AirPods Pro">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">AirPods Pro (2nd Generation)</div>
+                    <div class="product-quantity">Qty: 1</div>
+                    <div class="product-price">₹24,900</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=80&h=80&fit=crop&crop=center" alt="Apple Watch">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">Apple Watch Series 9</div>
+                    <div class="product-quantity">Qty: 1</div>
+                    <div class="product-price">₹41,900</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=80&h=80&fit=crop&crop=center" alt="MagSafe Charger">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">MagSafe Charger</div>
+                    <div class="product-quantity">Qty: 2</div>
+                    <div class="product-price">₹4,500</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=80&h=80&fit=crop&crop=center" alt="iPhone Case">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">iPhone 15 Pro Case - Leather</div>
+                    <div class="product-quantity">Qty: 1</div>
+                    <div class="product-price">₹5,900</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="order-summary">
+                <div>Items: 6 • Total: ₹212,199</div>
+            </div>
+        </div>
+
+        <div class="order-card">
+            <div class="order-header">
+                <div>
+                    <div class="order-id">Order ORD-2024-001</div>
+                    <div class="order-date">Placed on 15/01/2024</div>
+                </div>
+                <div style="text-align: right;">
+                    <div class="order-price">₹212,199</div>
+                    <div class="status-badge">✓ Delivered</div>
+                </div>
+            </div>
+
+            <div class="tracking-info">
+                Tracking: TRK12345789
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=80&h=80&fit=crop&crop=center" alt="iPhone 15 Pro Max">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">iPhone 15 Pro Max</div>
+                    <div class="product-quantity">Qty: 1</div>
+                    <div class="product-price">₹134,999</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=80&h=80&fit=crop&crop=center" alt="AirPods Pro">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">AirPods Pro (2nd Generation)</div>
+                    <div class="product-quantity">Qty: 1</div>
+                    <div class="product-price">₹24,900</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=80&h=80&fit=crop&crop=center" alt="Apple Watch">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">Apple Watch Series 9</div>
+                    <div class="product-quantity">Qty: 1</div>
+                    <div class="product-price">₹41,900</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=80&h=80&fit=crop&crop=center" alt="MagSafe Charger">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">MagSafe Charger</div>
+                    <div class="product-quantity">Qty: 2</div>
+                    <div class="product-price">₹4,500</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="product-item">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1556656793-08538906a9f8?w=80&h=80&fit=crop&crop=center" alt="iPhone Case">
+                </div>
+                <div class="product-details">
+                    <div class="product-name">iPhone 15 Pro Case - Leather</div>
+                    <div class="product-quantity">Qty: 1</div>
+                    <div class="product-price">₹5,900</div>
+                </div>
+                <button class="view-button">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                    </svg>
+                    View
+                </button>
+            </div>
+
+            <div class="order-summary">
+                <div>Items: 6 • Total: ₹212,199</div>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="help-button">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+        </svg>
+    </button>
+
+    <script>
+        // Add some interactive functionality
+        document.querySelector('.back-button').addEventListener('click', function() {
+            console.log('Navigating back to shopping...');
+        });
+
+        document.querySelector('.help-button').addEventListener('click', function() {
+            alert('Help & Support\n\nFor any order-related queries, please contact our customer support team.');
+        });
+
+        // Add click effects to all view buttons
+        document.querySelectorAll('.view-button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const productName = this.parentElement.querySelector('.product-name').textContent;
+                console.log('Viewing product details for:', productName);
+            });
+        });
+
+        // Add click effects to nav buttons
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                console.log('Navigating to:', this.textContent.trim());
+            });
+        });
+    </script>
+</body>
+</html>

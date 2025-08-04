@@ -688,6 +688,72 @@ responsive_styles = """
         .st-key-product-card-8 { animation-delay: 0.8s; }
 
 """
+cart_button_styles = """
+        [class *= "st-key-item-controls-"]{
+            display: flex;
+            align-items: center;
+            justify-content:space-around;
+            flex-direction: row;
+            width:100%;
+        }
+        [class *= "st-key-quantity-controls-"] {
+            display: flex;
+            align-items: center;
+            justify-content:center;
+            flex-direction: row;
+            gap: 0.5rem;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 50px;
+            padding: 0.25rem;
+            width: fit-content;
+            border:1px solid var(--border);
+            width:100%;
+        }
+
+        [class *= "st-key-quantity-controls-"] div[data-testid="stMarkdownContainer"]{
+            margin-bottom:0rem;
+        }
+
+        [class *= "st-key-minus-btn-"] .stButton button,
+        [class *= "st-key-plus-btn-"] .stButton button {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            width: 2.5rem;
+            height: 2.5rem;
+            border: none;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.2s;
+        }
+
+        [class *= "st-key-minus-btn-"] .stButton button:hover,
+        [class *= "st-key-plus-btn-"] .stButton button:hover {
+            background: var(--primary-dark);
+        }
+
+        .quantity-display {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            min-width: 100%;
+            height:40px;
+            text-align: center;
+            border:none;
+            font-weight: 600;
+            font-size: 1rem;
+            background-color: transparent;
+            width: fit-content;
+        }
+
+"""
 
 styles = f"""
     <style>
@@ -698,6 +764,7 @@ styles = f"""
     {feature_section_styles}
     {product_styles}
     {responsive_styles}
+    {cart_button_styles}
     </style>
 """
 
@@ -750,7 +817,8 @@ def home_page():
                             icon=":material/package_2:"
                         )
                     with user_col:
-                        label = ((st.session_state["current_user"].name).split(" "))[0] if(st.session_state["current_user"].user_exist) else "Login/Signup"
+                        # label = ((st.session_state["current_user"].name).split(" "))[0] if(st.session_state["current_user"].user_exist) else "Login/Signup"
+                        label = "Sign Up"
                         st.button(
                             label=label,
                             key = "nav-btn-3",
@@ -807,7 +875,7 @@ def home_page():
 
         with st.container(key = "products-grid"):
             for product in range(12):
-                qty = 0
+                qty = 1
                 with st.container(key = f"product-card-{product+1}"):
                     with st.container(key = f"product-image-details-{product+1}"):
                         st.markdown(
@@ -843,27 +911,24 @@ def home_page():
                                         type="secondary"
                                     )
                                 else:
-                                    with st.container(key = f"quantity-controls-{product+1}"):
-                                        dec_col, qty_col, inc_col = st.columns([1, 2, 1])
-                                        with dec_col:
+                                    with st.container(key = f"item-controls-{product+1}"):
+                                        with st.container(key = f"quantity-controls-{product+1}"):
                                             st.button(
                                                 type="tertiary",
-                                                label="-",
-                                                # icon=":material/remove:",
+                                                label="",
+                                                icon=":material/remove:",
                                                 key=f"minus-btn-{product+1}",
                                             )
-                                        with qty_col:
                                             st.markdown(
                                                 f"""
-                                                <input type="text" class="quantity-display" value="{qty}" readonly>
+                                                <div class = "quantity-display">{qty}</div>
                                                 """,
                                                 unsafe_allow_html=True
                                             )
-                                        with inc_col:
                                             st.button(
                                                 type="tertiary",
-                                                label="+",
-                                                # icon=":material/add:",
+                                                label="",
+                                                icon=":material/add:",
                                                 key=f"plus-btn-{product+1}",
                                             )
 
@@ -876,4 +941,4 @@ def home_page():
                                 
 
 
-
+home_page()

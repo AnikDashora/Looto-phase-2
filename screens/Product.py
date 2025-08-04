@@ -654,6 +654,73 @@ product_styles = """
 
 """
 
+cart_button_styles = """
+        .st-key-item-controls{
+            display: flex;
+            align-items: center;
+            justify-content:space-around;
+            flex-direction: row;
+            width:50%;
+        }
+        .st-key-quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content:center;
+            flex-direction: row;
+            gap: 0.5rem;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 50px;
+            padding: 0.25rem;
+            width: fit-content;
+            border:1px solid var(--border);
+            width:100%;
+        }
+
+        .st-key-quantity-controls div[data-testid="stMarkdownContainer"]{
+            margin-bottom:0rem;
+        }
+
+        .st-key-minus-btn .stButton button,
+        .st-key-plus-btn .stButton button {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            width: 3.75rem;
+            height: 3.75rem;
+            border: none;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.2s;
+        }
+
+        .st-key-minus-btn .stButton button:hover,
+        .st-key-plus-btn .stButton button:hover {
+            background: var(--primary-dark);
+        }
+
+        .quantity-display {
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            min-width: 100%;
+            height:40px;
+            text-align: center;
+            border:none;
+            font-weight: 600;
+            font-size: 1rem;
+            background-color: transparent;
+            width: fit-content;
+        }
+
+"""
+
 styles = f"""
 <style>
     {remove_header_footer}
@@ -661,6 +728,7 @@ styles = f"""
     {navbar_styles}
     {back_button_styles}
     {product_styles}
+    {cart_button_styles}
 </style>
 """
 def apply_discount(price, discount):
@@ -852,28 +920,25 @@ def product_page():
                             type="secondary"
                         )
                     else:
-                        with st.container(key = "quantity-controls"):
-                            dec_col, qty_col, inc_col = st.columns([1, 2, 1])
-                            with dec_col:
+                        with st.container(key = f"item-controls"):
+                            with st.container(key = f"quantity-controls"):
                                 st.button(
                                     type="tertiary",
                                     label="",
                                     icon=":material/remove:",
-                                    key="minus-btn",
+                                    key=f"minus-btn",
                                 )
-                            with qty_col:
                                 st.markdown(
                                     f"""
-                                    <input type="text" class="quantity-display" value="{qty}" readonly>
+                                    <div class = "quantity-display">{qty}</div>
                                     """,
                                     unsafe_allow_html=True
                                 )
-                            with inc_col:
                                 st.button(
                                     type="tertiary",
                                     label="",
                                     icon=":material/add:",
-                                    key="plus-btn",
+                                    key=f"plus-btn",
                                 )
 
                     # with order_col:
