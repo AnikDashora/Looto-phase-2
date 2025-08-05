@@ -794,23 +794,25 @@ def product_page():
                             label="My cart",
                             key = "nav-btn-1",
                             type="secondary",
-                            icon=":material/shopping_cart:"
+                            icon=":material/shopping_cart:",
+                            on_click=st.session_state["navigation"].to_cart_page
                         )
                     with order_col:
                         st.button(
                             label="Orders",
                             key = "nav-btn-2",
                             type="secondary",
-                            icon=":material/package_2:"
+                            icon=":material/package_2:",
+                            on_click=st.session_state["navigation"].to_order_page
                         )
                     with user_col:
-                        # label = ((st.session_state["current_user"].name).split(" "))[0] if(st.session_state["current_user"].user_exist) else "Login/Signup"
+                        label = ((st.session_state["current_user"].name).split(" "))[0] if(st.session_state["current_user"].user_exist) else "Signup"
                         st.button(
-                            label="Signup",
+                            label=label,
                             key = "nav-btn-3",
                             type="secondary",
                             icon=":material/person:",
-                            # help=label
+                            help=label
                         )
 
     with st.container(key = "back-button-section"):
@@ -821,7 +823,8 @@ def product_page():
                     label = "Back to Home",
                     key = "back-button",
                     type="tertiary",
-                    icon=":material/arrow_back:"
+                    icon=":material/arrow_back:",
+                    on_click=st.session_state["navigation"].to_last_page
                 )
         # with empty_col:
             # st.empty()
@@ -961,4 +964,3 @@ def product_page():
                         """,
                         unsafe_allow_html=True
                     )      
-product_page()

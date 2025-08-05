@@ -807,18 +807,19 @@ def home_page():
                             label="My cart",
                             key = "nav-btn-1",
                             type="secondary",
-                            icon=":material/shopping_cart:"
+                            icon=":material/shopping_cart:",
+                            on_click=st.session_state["navigation"].to_cart_page
                         )
                     with order_col:
                         st.button(
                             label="Orders",
                             key = "nav-btn-2",
                             type="secondary",
-                            icon=":material/package_2:"
+                            icon=":material/package_2:",
+                            on_click=st.session_state["navigation"].to_order_page
                         )
                     with user_col:
-                        # label = ((st.session_state["current_user"].name).split(" "))[0] if(st.session_state["current_user"].user_exist) else "Login/Signup"
-                        label = "Sign Up"
+                        label = ((st.session_state["current_user"].name).split(" "))[0] if(st.session_state["current_user"].user_exist) else "Signup"
                         st.button(
                             label=label,
                             key = "nav-btn-3",
@@ -875,7 +876,7 @@ def home_page():
 
         with st.container(key = "products-grid"):
             for product in range(12):
-                qty = 1
+                qty = 0
                 with st.container(key = f"product-card-{product+1}"):
                     with st.container(key = f"product-image-details-{product+1}"):
                         st.markdown(
@@ -899,7 +900,8 @@ def home_page():
                         st.button(
                             label="View Product",
                             key=f"st-key-view-product-btn-{product+1}",
-                            type="secondary"
+                            type="secondary",
+                            on_click=st.session_state["navigation"].to_product_page
                         )
                         with st.container(key = f"action-buttons-{product+1}"):
                             add_to_cart_col,buy_now_col = st.columns(2)
@@ -939,6 +941,3 @@ def home_page():
                                     type="secondary"
                                 )
                                 
-
-
-home_page()

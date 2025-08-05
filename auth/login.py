@@ -914,7 +914,7 @@ def signin_page():
                                 password=user_data["password"]
                             )
                             st.session_state["current_user"].set_user_exist()
-                            st.session_state["navigation"].to_home_page()
+                            st.session_state["navigation"].handel_signup_login()
                             st.rerun()
                         else:
                             st.error("Invalid Email or Password")

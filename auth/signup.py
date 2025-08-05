@@ -951,7 +951,7 @@ def signup_page():
             signup_btn = st.button(
                 label="Create Account",
                 key="signup-button",
-                type="secondary"
+                type="secondary",
             )
 
             if(signup_btn):
@@ -964,7 +964,7 @@ def signup_page():
                             password=UserServies.encrypt_password(email,password)
                         )
                         UserServies.user_serialization(st.session_state["current_user"])#saving user in database
-                        st.session_state["navigation"].to_home_page()
+                        st.session_state["navigation"].handel_signup_login()
                         st.rerun()
                     else:
                         st.error("User Already Exist")
