@@ -42,6 +42,8 @@ class NavigationState:
             self.to_last_page()
 
     def to_last_page(self):
+        if(st.session_state["products"].view_current_product_id is not None and self.pages[self.page_index] == 2):
+            st.session_state["products"].view_current_product_id = None
         if(not((self.pages[self.page_index] == 0)
         or
         (self.pages[self.page_index] == 1))):

@@ -7,6 +7,9 @@ sys.path.append(parent_dir)
 
 from session_state.session_manager import NavigationState
 from models.user_model import User
+from models.product_model import Products
+from models.cart_model import UserCart
+
 from screens.Landing_Page import landing_page
 from auth.signup import signup_page
 from auth.login import signin_page
@@ -19,6 +22,10 @@ if("navigation" not in st.session_state):
     st.session_state["navigation"] = NavigationState()
 if("current_user" not in st.session_state):
     st.session_state["current_user"] = User()
+if("products" not in st.session_state):
+    st.session_state["products"] = Products()
+if("user_cart" not in st.session_state):
+    st.session_state["user_cart"] = UserCart()
 
 if(st.session_state["navigation"].get_current_page() == 0):
     landing_page()

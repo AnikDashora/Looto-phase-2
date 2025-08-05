@@ -907,13 +907,14 @@ def signin_page():
                     if(password):
                         if(VerifyUser.verify_user(email,password)):
                             user_data = UserServies.user_deserialization(email)
-                            st.session_state["current_user"].set_user_data(
+                            st.session_state["current_user"].set_user_data(#saves users state
                                 user_id=user_data["user_id"],
                                 name=user_data["name"],
                                 email=user_data["email"], 
                                 password=user_data["password"]
                             )
                             st.session_state["current_user"].set_user_exist()
+                            st.session_state["user_cart"].set_user_cart(st.session_state["current_user"].user_id)
                             st.session_state["navigation"].handel_signup_login()
                             st.rerun()
                         else:

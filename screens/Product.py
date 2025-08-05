@@ -1,4 +1,12 @@
 import streamlit as st
+import os 
+import sys
+
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
+
+from services.product_service import ProductService
+from services.cart_service import CartServices
 
 remove_header_footer = """
     #MainMenu {visibility: hidden;}
@@ -743,19 +751,12 @@ def make_price_string(price):
         return price_str[:-3] + "," + price_str[-3:]
     return price_str
 
-product_details = {
-    "name":"iPhone 15 Pro Max",
-    "price":159999,
-    "discount":16,
-    "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    "des":"""
-        The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
-        an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
-        performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
-        the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
-}
+
 
 def product_page():
+
+    product_details = ProductService.fetch_product_details(st.session_state["products"].view_current_product_id)
+
     st.set_page_config(
         page_title="Looto - Your Trusted Shopping Destination",
         page_icon="🛍️",
@@ -836,7 +837,7 @@ def product_page():
                 st.markdown(
                     f"""
                     <div class="product-image">
-                        <img src={product_details['image']} alt="{product_details['name']}">
+                        <img src={product_details['image_url']} alt="{product_details['name']}">
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -856,13 +857,13 @@ def product_page():
                     st.markdown(
                         f"""
                         <div class="current-price">
-                            <span>₹{make_price_string(apply_discount(product_details['price'],product_details['discount']))}</span>
+                            <span>₹{make_price_string(apply_discount(int(product_details['price']),product_details['discount']))}</span>
                         </div>
                         <div class="original-price">
-                            <span>₹{make_price_string(product_details["price"])}</span>
+                            <span>₹{make_price_string(int(product_details["price"]))}</span>
                         </div>
                         <div class="discount-badge">
-                            <span>16% OFF</span>
+                            <span>{product_details['discount']}% OFF</span>
                         </div>
                         <div class="tax-info"><span>Inclusive of all taxes</span></div>
                         """,
@@ -913,14 +914,20 @@ def product_page():
                     )
 
                 with st.container(key = "action-buttons"):
-                    qty = 0
+                    product_cart_quantity = CartServices.find_quantity_in_cart(product_details["product_id"],st.session_state["user_cart"])
                     # cart_col,order_col = st.columns(2)
                     # with cart_col:
-                    if(qty <= 0):
+                    if(product_cart_quantity <= 0):
                         st.button(
                             label="Add to Cart",
                             key="add-to-cart",
-                            type="secondary"
+                            type="secondary",
+                            on_click=CartServices.add_to_cart,
+                            args=(
+                                product_details["product_id"],
+                                st.session_state["user_cart"],
+                                st.session_state["current_user"].user_id,
+                            )
                         )
                     else:
                         with st.container(key = f"item-controls"):
@@ -930,10 +937,16 @@ def product_page():
                                     label="",
                                     icon=":material/remove:",
                                     key=f"minus-btn",
+                                    on_click=CartServices.remove_from_cart,
+                                    args=(
+                                        product_details["product_id"],
+                                        st.session_state["user_cart"],
+                                        st.session_state["current_user"].user_id,
+                                    )
                                 )
                                 st.markdown(
                                     f"""
-                                    <div class = "quantity-display">{qty}</div>
+                                    <div class = "quantity-display">{product_cart_quantity}</div>
                                     """,
                                     unsafe_allow_html=True
                                 )
@@ -942,6 +955,12 @@ def product_page():
                                     label="",
                                     icon=":material/add:",
                                     key=f"plus-btn",
+                                    on_click=CartServices.add_to_cart,
+                                    args=(
+                                        product_details["product_id"],
+                                        st.session_state["user_cart"],
+                                        st.session_state["current_user"].user_id,
+                                    )
                                 )
 
                     # with order_col:
@@ -959,7 +978,7 @@ def product_page():
                     st.markdown(
                         f"""
                         <p>
-                        {product_details["des"]}
+                        {product_details["description"]}
                         </p>
                         """,
                         unsafe_allow_html=True

@@ -1,8 +1,22 @@
 import streamlit as st
+import os 
+import sys
+
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
+
+from services.product_service import ProductService
+from services.cart_service import CartServices
 
 def check_user_exist():
     if(not(st.session_state["current_user"].user_exist)):
-        st.session_state["navigation"].to_signup_page
+        st.session_state["navigation"].to_signup_page()
+
+def apply_view_product_id(product_id,product_obj):
+    ProductService.set_view_product(product_id,product_obj)
+    st.session_state["navigation"].to_product_page()
+
+
 
 remove_header_footer = """
     #MainMenu {visibility: hidden;}
@@ -831,22 +845,11 @@ def home_page():
 
     with st.container(key = "category-bar"):
         with st.container(key = "category-container"):
-            cat_list = [
-                "Electronics",
-                "Fashion",
-                "Home & Garden",
-                "Sports",
-                "Books",
-                "Beauty",
-                "Automotive",
-                "Toys",
-                "Health",
-                "Grocer"
-            ]
+            cat_list = st.session_state["products"].show_categories
             with st.container(key = "categories"):
                 for cat_item in range(len(cat_list)):
                     st.button(
-                        label=cat_list[cat_item],
+                        label=cat_list[cat_item]["name"],
                         key = f"category-btn-{cat_item+1}",
                         type="secondary"
                     )
@@ -873,16 +876,17 @@ def home_page():
             """,
             unsafe_allow_html=True
         )
-
+        products = st.session_state["products"].show_products
         with st.container(key = "products-grid"):
-            for product in range(12):
-                qty = 0
+            for product in range(len(products)):
+                product_id = products[product]["product_id"]
+                product_cart_quantity = CartServices.find_quantity_in_cart(product_id,st.session_state["user_cart"])
                 with st.container(key = f"product-card-{product+1}"):
                     with st.container(key = f"product-image-details-{product+1}"):
                         st.markdown(
-                            """
+                            f"""
                             <div class="product-image">
-                                <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=300&fit=crop" alt="Products">
+                                <img src="{products[product]["image_url"]}" alt="{products[product]["name"]}">
                             </div>
                             <div class="badge">Hot</div>
                             """,
@@ -891,26 +895,33 @@ def home_page():
                     with st.container(key = f"product-info-{product+1}"):
                         with st.container(key = f"product-details-{product+1}"):
                             st.markdown(
-                                """
-                                <h3 class="product-title">Premium Laptop</h3>
-                                <p class="product-description">High-performance laptop with latest specs for work and gaming</p>
-                                <div class="product-price">$899.99</div>
+                                f"""
+                                <h3 class="product-title">{products[product]["name"]}</h3>
+                                <p class="product-description">{products[product]["description"]}</p>
+                                <div class="product-price">₹{int(products[product]["price"])}</div>
                                 """,unsafe_allow_html=True
                             )
                         st.button(
                             label="View Product",
                             key=f"st-key-view-product-btn-{product+1}",
                             type="secondary",
-                            on_click=st.session_state["navigation"].to_product_page
+                            on_click=apply_view_product_id,
+                            args=(products[product]["product_id"],st.session_state["products"],)
                         )
                         with st.container(key = f"action-buttons-{product+1}"):
                             add_to_cart_col,buy_now_col = st.columns(2)
                             with add_to_cart_col:
-                                if(qty <= 0):
+                                if(product_cart_quantity <= 0):
                                     st.button(
                                         label="Add to Cart",
                                         key=f"add-to-cart-{product+1}",
-                                        type="secondary"
+                                        type="secondary",
+                                        on_click=CartServices.add_to_cart,
+                                        args=(
+                                            product_id,
+                                            st.session_state["user_cart"],
+                                            st.session_state["current_user"].user_id,
+                                        )
                                     )
                                 else:
                                     with st.container(key = f"item-controls-{product+1}"):
@@ -920,10 +931,16 @@ def home_page():
                                                 label="",
                                                 icon=":material/remove:",
                                                 key=f"minus-btn-{product+1}",
+                                                on_click=CartServices.remove_from_cart,
+                                                args=(
+                                                    product_id,
+                                                    st.session_state["user_cart"],
+                                                    st.session_state["current_user"].user_id,
+                                                )
                                             )
                                             st.markdown(
                                                 f"""
-                                                <div class = "quantity-display">{qty}</div>
+                                                <div class = "quantity-display">{product_cart_quantity}</div>
                                                 """,
                                                 unsafe_allow_html=True
                                             )
@@ -932,6 +949,12 @@ def home_page():
                                                 label="",
                                                 icon=":material/add:",
                                                 key=f"plus-btn-{product+1}",
+                                                on_click=CartServices.add_to_cart,
+                                                args=(
+                                                    product_id,
+                                                    st.session_state["user_cart"],
+                                                    st.session_state["current_user"].user_id,
+                                                )
                                             )
 
                             with buy_now_col:

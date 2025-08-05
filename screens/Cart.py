@@ -1,4 +1,12 @@
 import streamlit as st
+import os 
+import sys
+
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
+
+from services.product_service import ProductService
+from services.cart_service import CartServices
 
 remove_header_footer = """
     #MainMenu {visibility: hidden;}
@@ -693,7 +701,7 @@ styles = f"""
 
 def apply_discount(price, discount):
     """Calculate discounted price"""
-    discounted_price = int(price * ((100 - discount) / 100))
+    discounted_price = int(round(price * ((100 - discount) / 100)))
     return discounted_price
 
 def make_price_string(price):
@@ -703,53 +711,55 @@ def make_price_string(price):
         return price_str[:-3] + "," + price_str[-3:]
     return price_str
 
-cart_items = [
-    {
-    "name":"iPhone 15 Pro Max",
-    "price":159999,
-    "discount":16,
-    "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    "des":"""
-        The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
-        an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
-        performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
-        the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
-    },
-    {
-    "name":"iPhone 15 Pro Max",
-    "price":159999,
-    "discount":16,
-    "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    "des":"""
-        The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
-        an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
-        performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
-        the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
-    },
-    {
-    "name":"iPhone 15 Pro Max",
-    "price":159999,
-    "discount":16,
-    "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    "des":"""
-        The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
-        an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
-        performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
-        the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
-    },
-    {
-    "name":"iPhone 15 Pro Max",
-    "price":159999,
-    "discount":16,
-    "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-    "des":"""
-        The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
-        an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
-        performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
-        the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
-    }
-]
+# cart_items = [
+#     {
+#     "name":"iPhone 15 Pro Max",
+#     "price":159999,
+#     "discount":16,
+#     "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+#     "des":"""
+#         The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
+#         an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
+#         performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
+#         the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
+#     },
+#     {
+#     "name":"iPhone 15 Pro Max",
+#     "price":159999,
+#     "discount":16,
+#     "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+#     "des":"""
+#         The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
+#         an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
+#         performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
+#         the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
+#     },
+#     {
+#     "name":"iPhone 15 Pro Max",
+#     "price":159999,
+#     "discount":16,
+#     "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+#     "des":"""
+#         The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
+#         an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
+#         performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
+#         the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
+#     },
+#     {
+#     "name":"iPhone 15 Pro Max",
+#     "price":159999,
+#     "discount":16,
+#     "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+#     "des":"""
+#         The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
+#         an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
+#         performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
+#         the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
+#     }
+# ]
 def cart_page():
+    cart_items = st.session_state["user_cart"].user_cart_items
+    list_cart_items = list(cart_items.keys())
     st.set_page_config(
         page_title="Looto - Your Trusted Shopping Destination",
         page_icon="🛍️",
@@ -819,10 +829,10 @@ def cart_page():
                 on_click=st.session_state["navigation"].to_last_page
             )
             st.markdown(
-                """
+                f"""
                 <div class="cart-title-section">
                     <h1 class="page-title">My Shopping Cart</h1>
-                    <p class="item-count">2 items in your cart</p>
+                    <p class="item-count">{len(list_cart_items)} items in your cart</p>
                 </div>
                 """,
                 unsafe_allow_html=True
@@ -836,14 +846,16 @@ def cart_page():
                     """,
                     unsafe_allow_html=True
                 )
-                qty = 1
-                for item in range(len(cart_items)):
+                for item in range(len(list_cart_items)):
+                    product_id = list_cart_items[item]
+                    item_product_data = ProductService.fetch_product_details(product_id)
+                    item_quantity = cart_items[product_id]
                     with st.container(key = f"cart-item-{item+1}"):
                         with st.container(key = f"details-{item+1}"):
                             st.markdown(
                                 f"""
                                 <div class="item-image-details">
-                                    <img src={cart_items[item]["image"]} alt={cart_items[item]["name"]} class="item-image" />
+                                    <img src={item_product_data["image_url"]} alt={item_product_data["name"]} class="item-image" />
                                 </div>
                                 """,
                                 unsafe_allow_html=True
@@ -852,12 +864,12 @@ def cart_page():
                             st.markdown(
                                 f"""
                                 <div class="item-details">
-                                    <h3 class="item-name">{cart_items[item]["name"]}</h3>
+                                    <h3 class="item-name">{item_product_data["name"]}</h3>
                                     <div>
-                                        <span class="item-price">₹{make_price_string(apply_discount(cart_items[item]["price"],cart_items[item]["discount"]))}</span>
-                                        <span class="item-original-price">₹{make_price_string(cart_items[item]["price"])}</span>
+                                        <span class="item-price">₹{make_price_string(apply_discount(int(item_product_data["price"]),item_product_data["discount"]))}</span>
+                                        <span class="item-original-price">₹{make_price_string(int(item_product_data["price"]))}</span>
                                     </div>
-                                    <p class="item-subtotal">Subtotal: ₹{make_price_string(apply_discount(cart_items[item]["price"],cart_items[item]["discount"]))}</p>
+                                    <p class="item-subtotal">Subtotal: ₹{make_price_string(item_quantity*apply_discount(int(item_product_data["price"]),item_product_data["discount"]))}</p>
                                 </div>
                                 """,
                                 unsafe_allow_html=True
@@ -870,10 +882,16 @@ def cart_page():
                                     label="",
                                     icon=":material/remove:",
                                     key=f"minus-btn-{item+1}",
+                                    on_click=CartServices.remove_from_cart,
+                                    args=(
+                                        product_id,
+                                        st.session_state["user_cart"],
+                                        st.session_state["current_user"].user_id,
+                                    )
                                 )
                                 st.markdown(
                                     f"""
-                                    <div class = "quantity-display">{qty}</div>
+                                    <div class = "quantity-display">{item_quantity}</div>
                                     """,
                                     unsafe_allow_html=True
                                 )
@@ -882,13 +900,25 @@ def cart_page():
                                     label="",
                                     icon=":material/add:",
                                     key=f"plus-btn-{item+1}",
+                                    on_click=CartServices.add_to_cart,
+                                    args=(
+                                        product_id,
+                                        st.session_state["user_cart"],
+                                        st.session_state["current_user"].user_id,
+                                    )
                                 )
                             
                             st.button(
                                 label="",
                                 type = "tertiary",
                                 key = f"remove-btn-{item+1}",
-                                icon = ":material/delete:"
+                                icon = ":material/delete:",
+                                on_click=CartServices.delete_from_cart,
+                                args=(
+                                    product_id,
+                                    st.session_state["user_cart"],
+                                    st.session_state["current_user"].user_id,
+                                )
                             )
 
             with st.container(key = "order-summary"):
@@ -902,8 +932,8 @@ def cart_page():
                 st.markdown(
                     f"""
                     <div class="summary-row">
-                        <span class="summary-label">Subtotal (2 items)</span>
-                        <span class="summary-value">₹389,998</span>
+                        <span class="summary-label">Subtotal ({len(list_cart_items)} items)</span>
+                        <span class="summary-value">₹{make_price_string(int(CartServices.total_cart_price(st.session_state["current_user"].user_id)))}</span>
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -913,7 +943,7 @@ def cart_page():
                     f"""
                     <div class="summary-row">
                         <span class="summary-label savings">Savings</span>
-                        <span class="summary-value savings">-₹55,000</span>
+                        <span class="summary-value savings">-₹{make_price_string(int(CartServices.total_discount_price(st.session_state["current_user"].user_id)))}</span>
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -933,7 +963,7 @@ def cart_page():
                     f"""
                     <div class="summary-row total-row">
                         <span class="total-label">Total</span>
-                        <span class="total-value">₹334,998</span>
+                        <span class="total-value">₹{make_price_string(int(CartServices.final_cart_price(st.session_state["current_user"].user_id)))}</span>
                     </div>
                     """,
                     unsafe_allow_html=True
@@ -961,7 +991,8 @@ def cart_page():
                 st.button(
                     label="Continue Shopping",
                     type="tertiary",
-                    key = "continue-shopping"
+                    key = "continue-shopping",
+                    on_click=st.session_state["navigation"].to_home_page
                 )
 
                 st.markdown(
