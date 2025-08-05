@@ -18,7 +18,9 @@ class Products:
         self.all_categories = self.fetch_all_categories()
         self.show_products = self.set_show_products()
         self.show_categories = self.set_show_categories()
+        self.show_products_copy = self.show_products.copy()
         self.view_current_product_id = None
+        self.filter_categories_id = None
 
 
     def fetch_all_products(self):
@@ -131,7 +133,7 @@ class Products:
                 random.shuffle(shuffled_categories)
                 
                 # Extract first 10 categories
-                show_categories = shuffled_categories[:10]
+                show_categories = shuffled_categories[:16]
             else:
                 show_categories = []
                 st.info("No categories available to display")

@@ -7,6 +7,7 @@ sys.path.append(parent_dir)
 
 from services.product_service import ProductService
 from services.cart_service import CartServices
+from services.orders_service import OrderServices
 
 remove_header_footer = """
     #MainMenu {visibility: hidden;}
@@ -711,52 +712,10 @@ def make_price_string(price):
         return price_str[:-3] + "," + price_str[-3:]
     return price_str
 
-# cart_items = [
-#     {
-#     "name":"iPhone 15 Pro Max",
-#     "price":159999,
-#     "discount":16,
-#     "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-#     "des":"""
-#         The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
-#         an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
-#         performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
-#         the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
-#     },
-#     {
-#     "name":"iPhone 15 Pro Max",
-#     "price":159999,
-#     "discount":16,
-#     "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-#     "des":"""
-#         The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
-#         an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
-#         performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
-#         the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
-#     },
-#     {
-#     "name":"iPhone 15 Pro Max",
-#     "price":159999,
-#     "discount":16,
-#     "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-#     "des":"""
-#         The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
-#         an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
-#         performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
-#         the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
-#     },
-#     {
-#     "name":"iPhone 15 Pro Max",
-#     "price":159999,
-#     "discount":16,
-#     "image":"https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-#     "des":"""
-#         The iPhone 15 Pro Max represents the pinnacle of Apple's smartphone technology. Featuring the powerful A17 Pro chip, 
-#         an advanced camera system with 5x optical zoom, and a stunning titanium design, this device delivers unparalleled 
-#         performance and photography capabilities. With its 6.7-inch Super Retina XDR display and all-day battery life, 
-#         the iPhone 15 Pro Max is perfect for professionals and enthusiasts who demand the very best."""
-#     }
-# ]
+def buy_whole_cart(user_id, products, orders_obj=None):
+    OrderServices.buy_now(user_id, products, orders_obj)
+    CartServices.empty_whole_cart(st.session_state["user_cart"],user_id)
+
 def cart_page():
     cart_items = st.session_state["user_cart"].user_cart_items
     list_cart_items = list(cart_items.keys())
@@ -985,7 +944,13 @@ def cart_page():
                     label="Proceed to Checkout",
                     type="secondary",
                     key = "checkout-btn",
-                    icon = ":material/payments:"
+                    icon = ":material/payments:",
+                    on_click=buy_whole_cart,
+                    args=(
+                        st.session_state["current_user"].user_id,
+                        st.session_state["user_cart"].user_cart_items,
+                        st.session_state["user_order"]
+                    )
                 )
 
                 st.button(

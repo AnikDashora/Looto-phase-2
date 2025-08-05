@@ -1,4 +1,19 @@
 import streamlit as st
+import os 
+import sys
+
+parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(parent_dir)
+
+from services.orders_service import OrderServices
+from services.product_service import ProductService
+
+def make_price_string(price):
+    """Format price with comma separator"""
+    price_str = str(price)
+    if len(price_str) > 3:
+        return price_str[:-3] + "," + price_str[-3:]
+    return price_str
 
 remove_header_footer = """
     #MainMenu {visibility: hidden;}
@@ -535,6 +550,7 @@ def make_price_string(price):
     return price_str
 
 def order_page():
+    user_orders = st.session_state["user_order"].order_ids
     st.set_page_config(
         page_title="Looto - Your Trusted Shopping Destination",
         page_icon="🛍️",
@@ -614,7 +630,9 @@ def order_page():
             )
         orders = 0
         products = 0
-        for order in range(3):
+        for order in range(len(user_orders)):
+            current_order_id = user_orders[order]
+            current_orders_items = OrderServices.find_all_orders(current_order_id)
             with st.container(key = f"order-card-{orders+1}"):
                 with st.container(key = f"order-header-{orders+1}"):
                     
@@ -622,12 +640,12 @@ def order_page():
                         f"""
                         <div class = "orders-id-price-details">
                             <div>
-                                <div class="order-id">Order ORD-2024-001</div>
-                                <div class="order-date">Placed on 15/01/2024</div>
+                                <div class="order-id">Order {current_order_id}</div>
+                                <div class="order-date">Placed on {OrderServices.find_order_date(st.session_state["current_user"].user_id,current_order_id)}</div>
                             </div>
                             <div>
-                                <div class="order-price">₹212,199</div>
-                                <div class="status-badge">✓ Delivered</div>
+                                <div class="order-price">₹{make_price_string(int(OrderServices.find_total_amount(st.session_state["current_user"].user_id,current_order_id)))}</div>
+                                <div class="status-badge">✓ {OrderServices.find_status(st.session_state["current_user"].user_id,current_order_id)}</div>
                             </div>
                         </div>
                         """,
@@ -643,13 +661,15 @@ def order_page():
                         unsafe_allow_html=True
                     )
 
-                    for  order_item in range(3):
+                    for order_item in range(len(current_orders_items)):
+                        current_product_id = current_orders_items[order_item]["product_id"]
+                        current_product_details = ProductService.fetch_product_details(current_product_id)
                         with st.container(key = f"product-item-{products+1}"):
                             with st.container(key = f"order-product-details-{products+1}"):
                                 st.markdown(
                                     f"""
                                         <div class="product-image">
-                                            <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="iPhone 15 Pro Max">
+                                            <img src="{current_product_details["image_url"]}" alt="{current_product_details["name"]}">
                                         </div>
                                     """,
                                     unsafe_allow_html=True
@@ -658,9 +678,9 @@ def order_page():
                                 st.markdown(
                                     f"""
                                         <div class="product-details">
-                                            <div class="product-name">iPhone 15 Pro Max</div>
-                                            <div class="product-quantity">Qty: 1</div>
-                                            <div class="product-price">₹134,999</div>
+                                            <div class="product-name">{current_product_details["name"]}</div>
+                                            <div class="product-quantity">Qty: {current_orders_items[order_item]["quantity"]}</div>
+                                            <div class="product-price">₹{current_orders_items[order_item]["price_each"]}</div>
                                         </div>
                                     """,
                                     unsafe_allow_html=True

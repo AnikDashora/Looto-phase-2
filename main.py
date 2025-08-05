@@ -9,6 +9,7 @@ from session_state.session_manager import NavigationState
 from models.user_model import User
 from models.product_model import Products
 from models.cart_model import UserCart
+from models.order_model import Orders
 
 from screens.Landing_Page import landing_page
 from auth.signup import signup_page
@@ -26,6 +27,8 @@ if("products" not in st.session_state):
     st.session_state["products"] = Products()
 if("user_cart" not in st.session_state):
     st.session_state["user_cart"] = UserCart()
+if("user_order" not in st.session_state):
+    st.session_state["user_order"] = Orders()
 
 if(st.session_state["navigation"].get_current_page() == 0):
     landing_page()

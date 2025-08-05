@@ -183,6 +183,102 @@ class CartServices:
             st.error(f"Error deleting from cart: {str(e)}")
             return False
 
+    @staticmethod
+    def empty_whole_cart(user_cart_obj, user_id):
+        """
+        Empty the entire cart object and sync with database
+        
+        Args:
+            user_cart_obj: UserCart object
+            user_id (str): User ID
+            
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        try:
+            if not user_cart_obj or not hasattr(user_cart_obj, 'user_cart_items'):
+                st.error("Invalid cart object")
+                return False
+            
+            # Store original state for potential rollback
+            original_cart = user_cart_obj.user_cart_items.copy()
+            
+            # Update cart object first - empty the cart
+            user_cart_obj.user_cart_items = {}
+            
+            # Sync with database after successful object operation
+            database_success = CartServices.empty_whole_cart_database(user_id)
+            
+            if not database_success:
+                # Rollback object changes if database operation failed
+                user_cart_obj.user_cart_items = original_cart
+                st.error("Failed to sync with database. Changes reverted.")
+                return False
+            
+            
+            return True
+            
+        except Exception as e:
+            st.error(f"Error emptying cart: {str(e)}")
+            return False
+
+
+    @staticmethod
+    def empty_whole_cart_database(user_id):
+        """
+        Empty the entire cart in database for a specific user
+        
+        Args:
+            user_id (str): User ID whose cart to empty
+            
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        connect = SqlConnection()
+        
+        try:
+            if not user_id:
+                st.error("User ID is required")
+                return False
+            
+            if connect.connect():
+                # Check if user has any items in cart
+                check_sql = "SELECT COUNT(*) as count FROM cart_items WHERE user_id = %s"
+                
+                with connect.connection.cursor() as cursor:
+                    cursor.execute(check_sql, (user_id,))
+                    result = cursor.fetchone()
+                    
+                    if result and result['count'] > 0:
+                        # Delete all cart items for the user
+                        delete_sql = "DELETE FROM cart_items WHERE user_id = %s"
+                        cursor.execute(delete_sql, (user_id,))
+                        connect.connection.commit()
+                        
+                        # Get number of deleted rows
+                        deleted_count = cursor.rowcount
+                        return True
+                    else:
+
+                        return True  # Consider empty cart as success
+            else:
+                return False
+                
+        except pymysql.Error as e:
+            st.error(f"Database error while emptying cart: {str(e)}")
+            if connect.connection:
+                connect.connection.rollback()
+            return False
+        except Exception as e:
+            st.error(f"Unexpected error while emptying cart: {str(e)}")
+            if connect.connection:
+                connect.connection.rollback()
+            return False
+            
+        finally:
+            connect.disconnect()
+        
+        return False
 
     @staticmethod
     def add_to_cart_database(product_id, user_cart_obj, user_id):

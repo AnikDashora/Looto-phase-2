@@ -7,7 +7,7 @@ sys.path.append(parent_dir)
 
 from services.product_service import ProductService
 from services.cart_service import CartServices
-
+from services.orders_service import OrderServices
 def check_user_exist():
     if(not(st.session_state["current_user"].user_exist)):
         st.session_state["navigation"].to_signup_page()
@@ -378,6 +378,12 @@ category_bar_styles = """
 
         .st-key-categories .stButton button p {
             margin: 0;
+            word-break: keep-all;
+            overflow-wrap: normal;
+            white-space: nowrap;
+            hyphens: none;
+            word-wrap: normal;
+            padding:0 auto;
         }
 
 """
@@ -851,7 +857,12 @@ def home_page():
                     st.button(
                         label=cat_list[cat_item]["name"],
                         key = f"category-btn-{cat_item+1}",
-                        type="secondary"
+                        type="secondary",
+                        on_click=ProductService.filter_according_to_cat,
+                        args = (
+                            cat_list[cat_item]["category_id"],
+                            st.session_state["products"],
+                        )
                     )
 
     with st.container(key = "featured-section"):
@@ -961,6 +972,12 @@ def home_page():
                                 st.button(
                                     label="Buy Now",
                                     key=f"buy-now-{product+1}",
-                                    type="secondary"
+                                    type="secondary",
+                                    on_click=OrderServices.buy_now,
+                                    args=(
+                                        st.session_state["current_user"].user_id,
+                                        {product_id:1},
+                                        st.session_state["user_order"],
+                                    )
                                 )
                                 

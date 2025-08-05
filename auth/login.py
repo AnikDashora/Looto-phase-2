@@ -915,6 +915,7 @@ def signin_page():
                             )
                             st.session_state["current_user"].set_user_exist()
                             st.session_state["user_cart"].set_user_cart(st.session_state["current_user"].user_id)
+                            st.session_state["user_order"].set_order_ids(st.session_state["current_user"].user_id)
                             st.session_state["navigation"].handel_signup_login()
                             st.rerun()
                         else:
