@@ -35,6 +35,12 @@ class NavigationState:
     def handel_new_user(self):
         self.pages[-1] = 6
     
+    def handel_signup_login(self):
+        if(self.pages[self.page_index - 1] == 0):
+            self.to_home_page()
+        else:
+            self.to_last_page()
+
     def to_last_page(self):
         if(not((self.pages[self.page_index] == 0)
         or
@@ -49,3 +55,24 @@ class NavigationState:
             self.pages.append(1)
             self.page_index += 1 
 
+    def to_product_page(self):
+        self.pages.append(2)
+        self.page_index += 1
+
+    def to_cart_page(self):
+        if(st.session_state["current_user"].user_exist):
+            self.pages.append(3)
+            self.page_index += 1
+        else:
+            self.pages.append(3)
+            self.pages.append(6)
+            self.page_index += 2
+    
+    def to_order_page(self):
+        if(st.session_state["current_user"].user_exist):
+            self.pages.append(4)
+            self.page_index += 1
+        else:
+            self.pages.append(4)
+            self.pages.append(6)
+            self.page_index += 2
