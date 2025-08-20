@@ -133,7 +133,7 @@ class Products:
                 random.shuffle(shuffled_categories)
                 
                 # Extract first 10 categories
-                show_categories = shuffled_categories[:16]
+                show_categories = shuffled_categories[:8]
             else:
                 show_categories = []
                 st.info("No categories available to display")

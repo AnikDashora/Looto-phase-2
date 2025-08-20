@@ -558,7 +558,6 @@ def order_page():
         initial_sidebar_state="collapsed"
     )
     st.markdown(styles,unsafe_allow_html=True)
-
     with st.container(key = "navbar"):
         with st.container(key = "nav-container"):
             logo_col,search_bar_col,nav_button_col = st.columns([1,5,4])

@@ -3,7 +3,7 @@ from pymysql.cursors import DictCursor
 
 class SqlConnection:
     def __init__(self, database="looto"):
-        self.host = "localhost"
+        self.host = "127.0.0.1"
         self.user = "root"
         self.password = "root"
         self.database = database

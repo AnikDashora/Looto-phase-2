@@ -171,7 +171,7 @@ class OrderServices:
                 
                 # Add order_id to Orders object if provided
                 if orders_obj and hasattr(orders_obj, 'order_ids'):
-                    orders_obj.order_ids.append(order_id)               
+                    orders_obj.order_ids.insert(0,order_id)               
                 
                 return order_id
                 

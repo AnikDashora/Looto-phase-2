@@ -25,12 +25,11 @@ class Orders:
         
         try:
             if connect.connect():
-                sql = "SELECT order_id FROM orders WHERE user_id = %s ORDER BY created_at DESC"
+                sql = "SELECT order_id FROM orders WHERE user_id = %s order by order_id desc;"
                 
                 with connect.connection.cursor() as cursor:
                     cursor.execute(sql, (user_id,))
                     results = cursor.fetchall()
-                    
                     if results:
                         # Extract order_ids from the results and store in list
                         self.order_ids = [row['order_id'] for row in results]
